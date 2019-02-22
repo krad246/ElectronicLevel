@@ -2,6 +2,7 @@
 #include <stdint.h>
 
 #include "adc.h"
+#include "math.h"
 #include "timer.h"
 #include "print.h"
 #include "button.h"
@@ -28,15 +29,22 @@ int main(void) {
 	// Initialize the UART for printing
 	initUART();
 
-//	// Initialize the system tick
-//	initTimer();
-
 	// Begin calibration
+	print("\r\n");
 	print("---------------\r\n");
 	print("| Calibration |\r\n");
 	print("---------------\r\n");
+	print("\r\n");
+
+
+	// Switch to analog mode
+	UARTtoADC();
+
+	// Initialize the system tick
+	initTimer();
 
 	_low_power_mode_0();
+
 	return 0;
 }
 
@@ -57,7 +65,7 @@ static uint8_t calibState = 0;
 static uint16_t calibVals[6] = { 0 };
 
 // Samples array for ADC
-extern uint16_t samples[3];
+extern int16_t samples[3];
 
 // Button callback
 inline void outputFunction(void) {
@@ -66,18 +74,6 @@ inline void outputFunction(void) {
 
 	// If in the middle of calibrating
 	if (calibState < 6) {
-		// Switch to GPIO mode
-		P1DIR &= ~(BIT1 | BIT2);
-		P1SEL &= ~(BIT1 | BIT2);
-		P1SEL2 &= ~(BIT1 | BIT2);
-
-		// Read into the buffer
-		readADC(samples);
-
-		// Reset pin mode
-		P1SEL = BIT1 | BIT2;				// P1.1 = RXD, P1.2=TXD
-		P1SEL2 = BIT1 | BIT2;				// P1.1 = RXD, P1.2=TXD
-
 		// Set the appropriate value in the array
 		if (calibState < 2) {
 			calibVals[calibState] = samples[2];
@@ -89,6 +85,7 @@ inline void outputFunction(void) {
 
 		// Status update
 		print("Got sample: %u\r\n", calibVals[calibState]);
+		print("\r\n");
 
 		// Move to next phase
 		calibState++;
@@ -96,15 +93,21 @@ inline void outputFunction(void) {
 
 	// When calibration is done
 	if (calibState == 6) {
-
 		// Calculate basis vectors
 		x0 = (calibVals[0] + calibVals[1]) >> 1;
 		y0 = (calibVals[2] + calibVals[3]) >> 1;
 		z0 = (calibVals[4] + calibVals[5]) >> 1;
 
 		// Print out basis vectors
+		print("-------\r\n");
 		print("x0 = %u\r\n", x0);
 		print("y0 = %u\r\n", y0);
 		print("z0 = %u\r\n", z0);
+		print("-------\r\n");
+
+		print("Starting application...\r\n");
+
+		// Move to next state
+		calibState++;
 	}
 }

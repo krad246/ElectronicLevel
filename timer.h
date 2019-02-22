@@ -5,5 +5,6 @@
 #include <stdint.h>
 
 void initTimer(void);
+void manageTimers(void);
 
 #endif

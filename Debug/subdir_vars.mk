@@ -12,6 +12,7 @@ C_SRCS += \
 ../adc.c \
 ../button.c \
 ../main.c \
+../math.c \
 ../print.c \
 ../sleep.c \
 ../timer.c 
@@ -20,6 +21,7 @@ C_DEPS += \
 ./adc.d \
 ./button.d \
 ./main.d \
+./math.d \
 ./print.d \
 ./sleep.d \
 ./timer.d 
@@ -28,6 +30,7 @@ OBJS += \
 ./adc.obj \
 ./button.obj \
 ./main.obj \
+./math.obj \
 ./print.obj \
 ./sleep.obj \
 ./timer.obj 
@@ -36,6 +39,7 @@ OBJS__QUOTED += \
 "adc.obj" \
 "button.obj" \
 "main.obj" \
+"math.obj" \
 "print.obj" \
 "sleep.obj" \
 "timer.obj" 
@@ -44,6 +48,7 @@ C_DEPS__QUOTED += \
 "adc.d" \
 "button.d" \
 "main.d" \
+"math.d" \
 "print.d" \
 "sleep.d" \
 "timer.d" 
@@ -52,6 +57,7 @@ C_SRCS__QUOTED += \
 "../adc.c" \
 "../button.c" \
 "../main.c" \
+"../math.c" \
 "../print.c" \
 "../sleep.c" \
 "../timer.c" 

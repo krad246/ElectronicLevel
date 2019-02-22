@@ -12,6 +12,7 @@
 #include <stdint.h>
 
 void initADC(void);
-void readADC();
+void UARTtoADC(void);
+void readADC(void);
 
 #endif /* ADC_H_ */

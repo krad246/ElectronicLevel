@@ -7,25 +7,34 @@
 
 #include "print.h"
 
-/**
- * Initializes the UART for 9600 baud with a RX interrupt
- **/
+// Initializes UART
 inline void initUART(void) {
+	// Reset the UART
 	UCA0CTL1 |= UCSWRST;
 
-	P1SEL = BIT1 | BIT2;				// P1.1 = RXD, P1.2=TXD
-	P1SEL2 = BIT1 | BIT2;				// P1.1 = RXD, P1.2=TXD
+	// Set the pin functionality to UART
+	P1SEL = BIT1 | BIT2;
+	P1SEL2 = BIT1 | BIT2;
 
-	UCA0CTL1 |= UCSSEL_3;				// CLK = ACLK
-	UCA0BR0 = 0x68;						// 32kHz/9600 = 3.41
+	// Use the SMCLK
+	UCA0CTL1 |= UCSSEL_3;
+
+	// Set the baud rate to 9600
+	UCA0BR0 = 0x68;
 	UCA0BR1 = 0x00;
-	UCA0MCTL = UCBRS0;					// Modulation UCBRSx = 3
-	UCA0CTL1 &= ~UCSWRST;				// **Initialize USCI state machine**
-	IE2 |= UCA0RXIE;					// Enable USCI_A0 RX interrupt
+
+	// Use modulation type 3
+	UCA0MCTL = UCBRS0;
+
+	// Enable USCI_A0 RX interrupt
+	IE2 |= UCA0RXIE;
+
+	// Start UART
+	UCA0CTL1 &= ~UCSWRST;
 }
 
 /**
- * puts() is used by printf() to display or send a string.. This function
+ * puts() is used by printf() to display or send a string. This function
  *     determines where printf prints to. For this case it sends a string
  *     out over UART, another option could be to display the string on an
  *     LCD display.
@@ -52,8 +61,11 @@ void putc(unsigned b) {
  **/
 void sendByte(unsigned char byte)
 {
-	while (!(IFG2 & UCA0TXIFG));			// USCI_A0 TX buffer ready?
-	UCA0TXBUF = byte;					// TX -> RXed character
+	// USCI_A0 TX buffer ready?
+	while (!(IFG2 & UCA0TXIFG));
+
+	// TX -> RXed character
+	UCA0TXBUF = byte;
 }
 
 
@@ -149,4 +161,13 @@ void print(char *format, ...)
 			bad_fmt: putc(c);
 	}
 	va_end(a);
+}
+
+inline void ADCtoUART(void) {
+	// Set pins to digital mode
+	ADC10AE0 = 0x00;
+
+	// Reset pin mode to UART
+	P1SEL = BIT1 | BIT2;				// P1.1 = RXD, P1.2=TXD
+	P1SEL2 = BIT1 | BIT2;				// P1.1 = RXD, P1.2=TXD
 }

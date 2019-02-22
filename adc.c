@@ -21,17 +21,25 @@ void initADC(void) {
 
 	// Read 3 channels, 2-1-0
 	ADC10DTC1 = 3;
-	ADC10AE0 = BIT0 | BIT1 | BIT2;
+	ADC10AE0 = BIT0;
 
 	// Turn on the device and enable it
 	ADC10CTL0 = MSC | ADC10ON | ENC;
 }
 
+inline void UARTtoADC(void) {
+	// Switch to GPIO mode
+	P1DIR = 0x00;
+	P1SEL = 0x00;
+	P1SEL2 = 0x00;
+
+	// Enable analog channel input
+	ADC10AE0 = BIT1 | BIT2;
+}
 
 // Samples array for ADC
-uint16_t samples[3] = { 0 };
-
-inline void readADC() {
+int16_t samples[3] = { 0 };
+inline void readADC(void) {
 	// Wait for unfinished transfers
 	while (ADC10CTL1 & ADC10BUSY);
 
