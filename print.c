@@ -10,14 +10,16 @@
 /**
  * Initializes the UART for 9600 baud with a RX interrupt
  **/
-void initUART(void) {
-	P1SEL = BIT1 + BIT2 ;				// P1.1 = RXD, P1.2=TXD
-	P1SEL2 = BIT1 + BIT2 ;				// P1.1 = RXD, P1.2=TXD
+inline void initUART(void) {
+	UCA0CTL1 |= UCSWRST;
 
-	UCA0CTL1 |= UCSSEL_2;				// CLK = ACLK
+	P1SEL = BIT1 | BIT2;				// P1.1 = RXD, P1.2=TXD
+	P1SEL2 = BIT1 | BIT2;				// P1.1 = RXD, P1.2=TXD
+
+	UCA0CTL1 |= UCSSEL_3;				// CLK = ACLK
 	UCA0BR0 = 0x68;						// 32kHz/9600 = 3.41
 	UCA0BR1 = 0x00;
-	UCA0MCTL = UCBRS0;			// Modulation UCBRSx = 3
+	UCA0MCTL = UCBRS0;					// Modulation UCBRSx = 3
 	UCA0CTL1 &= ~UCSWRST;				// **Initialize USCI state machine**
 	IE2 |= UCA0RXIE;					// Enable USCI_A0 RX interrupt
 }

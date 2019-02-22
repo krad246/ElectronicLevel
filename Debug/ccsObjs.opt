@@ -1,1 +1,1 @@
-"./button.obj" "./main.obj" "./print.obj" "./sleep.obj" "../lnk_msp430g2553.cmd" -llibc.a 
+"./adc.obj" "./button.obj" "./main.obj" "./print.obj" "./sleep.obj" "./timer.obj" "../lnk_msp430g2553.cmd" -llibc.a 

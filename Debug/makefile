@@ -10,10 +10,12 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
+"./adc.obj" \
 "./button.obj" \
 "./main.obj" \
 "./print.obj" \
 "./sleep.obj" \
+"./timer.obj" \
 "../lnk_msp430g2553.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibc.a \
@@ -143,7 +145,7 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 ElectronicLevel.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: MSP430 Linker'
-	"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS/bin/cl430" -vmsp --use_hw_mpy=none --advice:power=all --define=__MSP430G2553__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number -z -m"ElectronicLevel.map" --heap_size=80 --stack_size=80 -i"C:/ti/ccsv8/ccs_base/msp430/include" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS/lib" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="ElectronicLevel_linkInfo.xml" --use_hw_mpy=none --rom_model -o "ElectronicLevel.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS/bin/cl430" -vmsp -Ooff --use_hw_mpy=none --advice:power=all --define=__MSP430G2553__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number -z -m"ElectronicLevel.map" --heap_size=80 --stack_size=80 -i"C:/ti/ccsv8/ccs_base/msp430/include" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS/lib" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="ElectronicLevel_linkInfo.xml" --use_hw_mpy=none --rom_model -o "ElectronicLevel.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
@@ -157,8 +159,8 @@ ElectronicLevel.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "button.obj" "main.obj" "print.obj" "sleep.obj" 
-	-$(RM) "button.d" "main.d" "print.d" "sleep.d" 
+	-$(RM) "adc.obj" "button.obj" "main.obj" "print.obj" "sleep.obj" "timer.obj" 
+	-$(RM) "adc.d" "button.d" "main.d" "print.d" "sleep.d" "timer.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

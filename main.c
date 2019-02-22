@@ -1,6 +1,8 @@
 #include <msp430.h> 
 #include <stdint.h>
 
+#include "adc.h"
+#include "timer.h"
 #include "print.h"
 #include "button.h"
 #include "sleep.h"
@@ -10,18 +12,36 @@ void initPorts(void);
 int main(void) {
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
 
+	// Set to 1 MHz clock
+	DCOCTL = CALDCO_1MHZ;
+	BCSCTL1 = CALBC1_1MHZ;
+
+	// Initialize unused ports
 	initPorts();
+
+	// Set up button debouncer
 	initButton();
+
+	// Set up ADC registers
+	initADC();
+
+	// Initialize the UART for printing
 	initUART();
 
-	_low_power_mode_0();
+//	// Initialize the system tick
+//	initTimer();
 
+	// Begin calibration
+	print("---------------\r\n");
+	print("| Calibration |\r\n");
+	print("---------------\r\n");
+
+	_low_power_mode_0();
 	return 0;
 }
 
+// Set pins as high impedance outputs
 void initPorts(void) {
-	P1DIR |= (BIT0 | BIT6);
-
 	P2DIR = 0xFF;
 	P2OUT = 0x00;
 
@@ -29,6 +49,62 @@ void initPorts(void) {
 	P3OUT = 0x00;
 }
 
-inline void outputFunction(void) {
+// Calibration basis vectors
+static uint16_t x0, y0, z0;
 
+// Phase of calibration and min / max data
+static uint8_t calibState = 0;
+static uint16_t calibVals[6] = { 0 };
+
+// Samples array for ADC
+extern uint16_t samples[3];
+
+// Button callback
+inline void outputFunction(void) {
+	// If calibration is done, return
+	if (calibState > 6) return;
+
+	// If in the middle of calibrating
+	if (calibState < 6) {
+		// Switch to GPIO mode
+		P1DIR &= ~(BIT1 | BIT2);
+		P1SEL &= ~(BIT1 | BIT2);
+		P1SEL2 &= ~(BIT1 | BIT2);
+
+		// Read into the buffer
+		readADC(samples);
+
+		// Reset pin mode
+		P1SEL = BIT1 | BIT2;				// P1.1 = RXD, P1.2=TXD
+		P1SEL2 = BIT1 | BIT2;				// P1.1 = RXD, P1.2=TXD
+
+		// Set the appropriate value in the array
+		if (calibState < 2) {
+			calibVals[calibState] = samples[2];
+		} else if (calibState < 4) {
+			calibVals[calibState] = samples[1];
+		} else {
+			calibVals[calibState] = samples[0];
+		}
+
+		// Status update
+		print("Got sample: %u\r\n", calibVals[calibState]);
+
+		// Move to next phase
+		calibState++;
+	}
+
+	// When calibration is done
+	if (calibState == 6) {
+
+		// Calculate basis vectors
+		x0 = (calibVals[0] + calibVals[1]) >> 1;
+		y0 = (calibVals[2] + calibVals[3]) >> 1;
+		z0 = (calibVals[4] + calibVals[5]) >> 1;
+
+		// Print out basis vectors
+		print("x0 = %u\r\n", x0);
+		print("y0 = %u\r\n", y0);
+		print("z0 = %u\r\n", z0);
+	}
 }
