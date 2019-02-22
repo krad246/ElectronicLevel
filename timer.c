@@ -41,7 +41,9 @@ interrupt void sysTick(void) {
 	if (counter > 500) {
 		ADCtoUART();
 		counter = 0;
-		print("%l, %l, %l \r\n", arr[0], arr[1], arr[2]);
+		print("\r\n");
+		print("%u, %u, %u \r\n", arr[0], arr[1], arr[2]);
+		print("\r\n");
 		UARTtoADC();
 	}
 }

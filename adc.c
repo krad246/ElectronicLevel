@@ -38,7 +38,7 @@ inline void UARTtoADC(void) {
 }
 
 // Samples array for ADC
-int16_t samples[3] = { 0 };
+uint16_t samples[3] = { 0 };
 inline void readADC(void) {
 	// Wait for unfinished transfers
 	while (ADC10CTL1 & ADC10BUSY);
