@@ -1,33 +1,6 @@
 #include "math.h"
 
-inline int32_t smul16(int16_t x, int16_t y) {
-    uint8_t negative = 0;
-	if (x < 0) {
-		negative = !negative;
-		x = -x;
-	}
-
-	if (y < 0) {
-		negative = !negative;
-		y = -y;
-	}
-
-	int32_t ret = 0;
-	while (y > 0) {
-		if (y & 0x01) {
-			ret += x;
-		}
-		x <<= 1;
-		y >>= 1;
-	}
-
-	if (negative) {
-		ret = -ret;
-	}
-
-	return ret;
-}
-
+// Shift and add multiplication routine
 inline uint32_t mul16(uint16_t x, uint16_t y) {
 	uint32_t ret = 0;
 	uint32_t xShift = (uint32_t) x;
@@ -51,8 +24,8 @@ uint32_t arr[3] = { 0 };
 // EMA filter implementation in fixed point
 inline void processData(void) {
 	// Q0.16 alpha and 1 - alpha
-	const uint16_t alpha = (uint16_t) (0.0625 * 65535);
-	const uint16_t mAlpha = 65535 - alpha;
+	const volatile uint16_t alpha = (uint16_t) (0.0625 * 65535);
+	const volatile uint16_t mAlpha = 65535 - alpha;
 
 	uint8_t i;
 	for (i = 0; i < 3; i++) {

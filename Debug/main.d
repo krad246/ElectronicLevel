@@ -14,6 +14,7 @@ main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS/include/machine/_t
 main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS/include/machine/_stdint.h
 main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS/include/sys/_stdint.h
 main.obj: ../adc.h
+main.obj: ../kernel.h
 main.obj: ../math.h
 main.obj: ../timer.h
 main.obj: ../print.h
@@ -35,6 +36,7 @@ C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS/include/machine/_types.h:
 C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS/include/machine/_stdint.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS/include/sys/_stdint.h: 
 ../adc.h: 
+../kernel.h: 
 ../math.h: 
 ../timer.h: 
 ../print.h: 

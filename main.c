@@ -2,6 +2,7 @@
 #include <stdint.h>
 
 #include "adc.h"
+#include "kernel.h"
 #include "math.h"
 #include "timer.h"
 #include "print.h"
@@ -12,6 +13,12 @@ void initPorts(void);
 
 int main(void) {
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
+
+	// Find the base address for task initialization
+	taskBase = _get_SP_register();
+
+	// Initialize a sample task;
+	initTask(initPorts);
 
 	// Set to 1 MHz clock
 	DCOCTL = CALDCO_1MHZ;
@@ -30,11 +37,11 @@ int main(void) {
 	initUART();
 
 	// Begin calibration
-	print("\r\n");
-	print("---------------\r\n");
-	print("| Calibration |\r\n");
-	print("---------------\r\n");
-	print("\r\n");
+	print("\n\r");
+	print("---------------\n\r");
+	print("| Calibration |\n\r");
+	print("---------------\n\r");
+	print("\n\r");
 
 
 	// Switch to analog mode

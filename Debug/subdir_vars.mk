@@ -11,6 +11,7 @@ CMD_SRCS += \
 C_SRCS += \
 ../adc.c \
 ../button.c \
+../kernel.c \
 ../main.c \
 ../math.c \
 ../print.c \
@@ -20,6 +21,7 @@ C_SRCS += \
 C_DEPS += \
 ./adc.d \
 ./button.d \
+./kernel.d \
 ./main.d \
 ./math.d \
 ./print.d \
@@ -29,6 +31,7 @@ C_DEPS += \
 OBJS += \
 ./adc.obj \
 ./button.obj \
+./kernel.obj \
 ./main.obj \
 ./math.obj \
 ./print.obj \
@@ -38,6 +41,7 @@ OBJS += \
 OBJS__QUOTED += \
 "adc.obj" \
 "button.obj" \
+"kernel.obj" \
 "main.obj" \
 "math.obj" \
 "print.obj" \
@@ -47,6 +51,7 @@ OBJS__QUOTED += \
 C_DEPS__QUOTED += \
 "adc.d" \
 "button.d" \
+"kernel.d" \
 "main.d" \
 "math.d" \
 "print.d" \
@@ -56,6 +61,7 @@ C_DEPS__QUOTED += \
 C_SRCS__QUOTED += \
 "../adc.c" \
 "../button.c" \
+"../kernel.c" \
 "../main.c" \
 "../math.c" \
 "../print.c" \

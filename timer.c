@@ -26,11 +26,15 @@ extern void print(char *format, ...);
 extern void UARTtoADC();
 extern void ADCtoUART();
 
-extern int16_t arr[3];
+extern uint32_t arr[3];
+
+uint32_t tick = 0;
 
 // System tick that manages software timers
 #pragma vector = TIMER1_A0_VECTOR
 interrupt void sysTick(void) {
+	tick++;
+
 	// Read ADC values
 	readADC();
 
@@ -39,11 +43,15 @@ interrupt void sysTick(void) {
 
 	counter++;
 	if (counter > 500) {
-		ADCtoUART();
 		counter = 0;
-		print("\r\n");
-		print("%u, %u, %u \r\n", arr[0], arr[1], arr[2]);
-		print("\r\n");
+		ADCtoUART();
+
+		print("Time: %n\n\r", tick);
+		print("x: %u\n\r", arr[0] >> 3);
+		print("y: %u\n\r", arr[1] >> 3);
+		print("z: %u\n\r", arr[2] >> 3);
+		print("\n\r");
+
 		UARTtoADC();
 	}
 }
