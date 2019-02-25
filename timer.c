@@ -1,8 +1,5 @@
 #include "timer.h"
 
-extern void readADC();
-extern void processData();
-
 // Initialize the system tick
 void initTimer(void) {
 	// Stop and clear the timer
@@ -16,42 +13,21 @@ void initTimer(void) {
 	TA1CTL = MC_1 | TASSEL_2;
 }
 
-// System tick software timer callback
-void manageTimers(void) {
-
-}
-
-uint16_t counter = 0;
-extern void print(char *format, ...);
-extern void UARTtoADC();
-extern void ADCtoUART();
-
-extern uint32_t arr[3];
-
-uint32_t tick = 0;
-
 // System tick that manages software timers
+extern task tasks[NUM_TASKS];
+extern uint16_t timers[NUM_TASKS];
+extern uint16_t frequencies[NUM_TASKS];
+
 #pragma vector = TIMER1_A0_VECTOR
-interrupt void sysTick(void) {
-	tick++;
+interrupt void scheduler(void) {
+	uint8_t i;
+	for (i = 0; i < NUM_TASKS; i++) {
+		timers[i]++;
 
-	// Read ADC values
-	readADC();
-
-	// Process ADC values
-	processData();
-
-	counter++;
-	if (counter > 500) {
-		counter = 0;
-		ADCtoUART();
-
-		print("Time: %n\n\r", tick);
-		print("x: %u\n\r", arr[0] >> 3);
-		print("y: %u\n\r", arr[1] >> 3);
-		print("z: %u\n\r", arr[2] >> 3);
-		print("\n\r");
-
-		UARTtoADC();
+		if (timers[i] > frequencies[i]) {
+			task t = tasks[i];
+			if (t) t();
+			timers[i] = 0;
+		}
 	}
 }

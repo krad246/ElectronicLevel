@@ -4,7 +4,8 @@
 #include <msp430.h>
 #include <stdint.h>
 
+#include "tasks.h"
+
 void initTimer(void);
-void manageTimers(void);
 
 #endif

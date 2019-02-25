@@ -12,11 +12,11 @@ GEN_CMDS__FLAG :=
 ORDERED_OBJS += \
 "./adc.obj" \
 "./button.obj" \
-"./kernel.obj" \
 "./main.obj" \
 "./math.obj" \
 "./print.obj" \
 "./sleep.obj" \
+"./tasks.obj" \
 "./timer.obj" \
 "../lnk_msp430g2553.cmd" \
 $(GEN_CMDS__FLAG) \
@@ -161,8 +161,8 @@ ElectronicLevel.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "adc.obj" "button.obj" "kernel.obj" "main.obj" "math.obj" "print.obj" "sleep.obj" "timer.obj" 
-	-$(RM) "adc.d" "button.d" "kernel.d" "main.d" "math.d" "print.d" "sleep.d" "timer.d" 
+	-$(RM) "adc.obj" "button.obj" "main.obj" "math.obj" "print.obj" "sleep.obj" "tasks.obj" "timer.obj" 
+	-$(RM) "adc.d" "button.d" "main.d" "math.d" "print.d" "sleep.d" "tasks.d" "timer.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

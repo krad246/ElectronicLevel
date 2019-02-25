@@ -1,8 +1,8 @@
 #include <msp430.h> 
 #include <stdint.h>
 
+#include "tasks.h"
 #include "adc.h"
-#include "kernel.h"
 #include "math.h"
 #include "timer.h"
 #include "print.h"
@@ -13,12 +13,6 @@ void initPorts(void);
 
 int main(void) {
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
-
-	// Find the base address for task initialization
-	taskBase = _get_SP_register();
-
-	// Initialize a sample task;
-	initTask(initPorts);
 
 	// Set to 1 MHz clock
 	DCOCTL = CALDCO_1MHZ;
@@ -43,11 +37,13 @@ int main(void) {
 	print("---------------\n\r");
 	print("\n\r");
 
-
 	// Switch to analog mode
 	UARTtoADC();
 
-	// Initialize the system tick
+	// Register the tasks for program execution
+	taskSetup();
+
+	// Initialize the scheduler
 	initTimer();
 
 	_low_power_mode_0();

@@ -11,61 +11,61 @@ CMD_SRCS += \
 C_SRCS += \
 ../adc.c \
 ../button.c \
-../kernel.c \
 ../main.c \
 ../math.c \
 ../print.c \
 ../sleep.c \
+../tasks.c \
 ../timer.c 
 
 C_DEPS += \
 ./adc.d \
 ./button.d \
-./kernel.d \
 ./main.d \
 ./math.d \
 ./print.d \
 ./sleep.d \
+./tasks.d \
 ./timer.d 
 
 OBJS += \
 ./adc.obj \
 ./button.obj \
-./kernel.obj \
 ./main.obj \
 ./math.obj \
 ./print.obj \
 ./sleep.obj \
+./tasks.obj \
 ./timer.obj 
 
 OBJS__QUOTED += \
 "adc.obj" \
 "button.obj" \
-"kernel.obj" \
 "main.obj" \
 "math.obj" \
 "print.obj" \
 "sleep.obj" \
+"tasks.obj" \
 "timer.obj" 
 
 C_DEPS__QUOTED += \
 "adc.d" \
 "button.d" \
-"kernel.d" \
 "main.d" \
 "math.d" \
 "print.d" \
 "sleep.d" \
+"tasks.d" \
 "timer.d" 
 
 C_SRCS__QUOTED += \
 "../adc.c" \
 "../button.c" \
-"../kernel.c" \
 "../main.c" \
 "../math.c" \
 "../print.c" \
 "../sleep.c" \
+"../tasks.c" \
 "../timer.c" 
 
 
