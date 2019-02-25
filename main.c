@@ -1,13 +1,9 @@
-#include <msp430.h> 
-#include <stdint.h>
-
 #include "tasks.h"
 #include "adc.h"
 #include "math.h"
 #include "timer.h"
 #include "print.h"
 #include "button.h"
-#include "sleep.h"
 
 void initPorts(void);
 
@@ -61,7 +57,7 @@ void initPorts(void) {
 }
 
 // Calibration basis vectors
-static uint16_t x0, y0, z0;
+_q15 x0, y0, z0;
 
 // Phase of calibration and min / max data
 static uint8_t calibState = 0;
@@ -103,9 +99,9 @@ inline void outputFunction(void) {
 
 		// Print out basis vectors
 		print("-------\r\n");
-		print("x0 = %u\r\n", x0);
-		print("y0 = %u\r\n", y0);
-		print("z0 = %u\r\n", z0);
+		print("x0 = %i\r\n", x0);
+		print("y0 = %i\r\n", y0);
+		print("z0 = %i\r\n", z0);
 		print("-------\r\n");
 
 		print("Starting application...\r\n");

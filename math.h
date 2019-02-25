@@ -1,9 +1,10 @@
 #ifndef MATH_H_
 #define MATH_H_
 
-#include <stdint.h>
+#include <dependencies.h>
 
-uint32_t mul16(uint16_t x, uint16_t y);
+_q15 mul16(_q15 x, _q15 y);
 void processData(void);
+void getAngles(void);
 
 #endif /* MATH_H_ */

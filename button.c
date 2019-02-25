@@ -1,10 +1,3 @@
-/*
- * button.c
- *
- *  Created on: Feb 8, 2019
- *      Author: krad2
- */
-
 #include "button.h"
 
 // Sets up button port registers

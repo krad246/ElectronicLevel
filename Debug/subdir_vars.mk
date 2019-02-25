@@ -5,6 +5,9 @@
 SHELL = cmd.exe
 
 # Add inputs and outputs from these tool invocations to the build variables 
+A_SRCS += \
+C:/ti/msp430/IQMATHLIB_01_10_00_05/libraries/CCS/MPYsoftware/QmathLib.a 
+
 CMD_SRCS += \
 ../lnk_msp430g2553.cmd 
 
@@ -14,7 +17,6 @@ C_SRCS += \
 ../main.c \
 ../math.c \
 ../print.c \
-../sleep.c \
 ../tasks.c \
 ../timer.c 
 
@@ -24,7 +26,6 @@ C_DEPS += \
 ./main.d \
 ./math.d \
 ./print.d \
-./sleep.d \
 ./tasks.d \
 ./timer.d 
 
@@ -34,7 +35,6 @@ OBJS += \
 ./main.obj \
 ./math.obj \
 ./print.obj \
-./sleep.obj \
 ./tasks.obj \
 ./timer.obj 
 
@@ -44,7 +44,6 @@ OBJS__QUOTED += \
 "main.obj" \
 "math.obj" \
 "print.obj" \
-"sleep.obj" \
 "tasks.obj" \
 "timer.obj" 
 
@@ -54,9 +53,11 @@ C_DEPS__QUOTED += \
 "main.d" \
 "math.d" \
 "print.d" \
-"sleep.d" \
 "tasks.d" \
 "timer.d" 
+
+A_SRCS__QUOTED += \
+"C:/ti/msp430/IQMATHLIB_01_10_00_05/libraries/CCS/MPYsoftware/QmathLib.a" 
 
 C_SRCS__QUOTED += \
 "../adc.c" \
@@ -64,7 +65,6 @@ C_SRCS__QUOTED += \
 "../main.c" \
 "../math.c" \
 "../print.c" \
-"../sleep.c" \
 "../tasks.c" \
 "../timer.c" 
 

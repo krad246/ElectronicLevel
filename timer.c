@@ -14,20 +14,23 @@ void initTimer(void) {
 }
 
 // System tick that manages software timers
-extern task tasks[NUM_TASKS];
-extern uint16_t timers[NUM_TASKS];
-extern uint16_t frequencies[NUM_TASKS];
+extern proc tasks[NUM_TASKS];
 
+// Round robin scheduler with a notion of time
 #pragma vector = TIMER1_A0_VECTOR
 interrupt void scheduler(void) {
+	// Loop through the task list
 	uint8_t i;
 	for (i = 0; i < NUM_TASKS; i++) {
-		timers[i]++;
+		// Increment each software timer
+		tasks[i].timer++;
 
-		if (timers[i] > frequencies[i]) {
-			task t = tasks[i];
+		// Check if it is time to run the function
+		if (tasks[i].timer > tasks[i].freq) {
+			// If so, run the function and reset the counter
+			task t = tasks[i].t;
 			if (t) t();
-			timers[i] = 0;
+			tasks[i].timer = 0;
 		}
 	}
 }

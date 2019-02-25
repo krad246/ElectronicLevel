@@ -1,10 +1,3 @@
-/*
- * adc.c
- *
- *  Created on: Feb 21, 2019
- *      Author: krad2
- */
-
 #include "adc.h"
 
 void initADC(void) {
@@ -38,7 +31,7 @@ inline void UARTtoADC(void) {
 }
 
 // Samples array for ADC
-uint16_t samples[3] = { 0 };
+_q15 samples[3] = { 0 };
 inline void readADC(void) {
 	// Wait for unfinished transfers
 	while (ADC10CTL1 & ADC10BUSY);

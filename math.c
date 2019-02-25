@@ -1,25 +1,11 @@
 #include "math.h"
 
-// Shift and add multiplication routine
-inline uint32_t mul16(uint16_t x, uint16_t y) {
-	uint32_t ret = 0;
-	uint32_t xShift = (uint32_t) x;
-    while (y) {
-        if (y & 1) {
-            ret += xShift;
-        }
-
-        xShift <<= 1;
-        y >>= 1;
-    }
-	return ret;
-}
-
 // Samples array
-extern uint16_t samples[3];
+extern _q15 samples[3];
 
 // Processed data
-uint32_t arr[3] = { 0 };
+_q15 arr[3] = { 0 };
+
 extern void readADC();
 
 // EMA filter implementation in fixed point
@@ -27,21 +13,39 @@ inline void processData(void) {
 	// Collect the data for processing
 	readADC();
 
-	// Q0.16 alpha and 1 - alpha
-	const volatile uint16_t alpha = (uint16_t) (0.0625 * 65535);
-	const volatile uint16_t mAlpha = 65535 - alpha;
+	// Q0.15 alpha and 1 - alpha
+	const volatile _q15 alpha = _Q15(0.0625);
+	const volatile _q15 mAlpha = _Q15(1 - 0.0625);
 
 	uint8_t i;
 	for (i = 0; i < 3; i++) {
-		// Calculate Q0.10 x Q0.16 = Q0.26
-		// Drop 9 bits to bring it to SQ0.16
-		volatile uint32_t p1 = mul16(alpha, samples[2 - i]);
+		// Calculate alpha * s[i]
+		volatile _q15 p1 = _Q15mpy(alpha, samples[2 - i]);
 
-		// Calculate Q0.16 x Q0.16 = SQ0.32
-		// Drop 16 bits to bring it down to Q0.16
-		volatile uint32_t p2 = mul16(mAlpha, arr[i]);
+		// Calculate (1 - alpha) * y[n - 1]
+		volatile _q15 p2 = _Q15mpy(mAlpha, arr[i]);
 
 		// Sum the two responses
-		arr[i] = (p1 >> 10) + (p2 >> 16);
+		arr[i] = p1 + p2;
 	}
+}
+
+// Calculate the angle of the device in fixed point
+extern _q15 x0, y0, z0;
+_q15 theta, phi;
+inline void getAngles(void) {
+	// Calculate vector displacement
+	_q15 dx = arr[0] - x0;
+	_q15 dy = arr[1] - y0;
+	_q15 dz = arr[2] - z0;
+
+	// Calculate xy-plane radius
+	_q15 r = _Q15mag(dx, dy);
+
+	// Calculate 3d radius
+	_q15 rho = _Q15mag(r, dz);
+
+	// Compute theta and phi using the lengths
+	theta = _Q15atan2(dy, dx);
+	phi = _Q15atan2(dz, rho);
 }
