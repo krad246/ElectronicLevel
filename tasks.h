@@ -3,7 +3,7 @@
 
 #include <dependencies.h>
 
-#define NUM_TASKS 3
+#define NUM_TASKS 4
 
 typedef void (*task)(void);
 

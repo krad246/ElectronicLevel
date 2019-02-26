@@ -12,18 +12,18 @@ typedef enum directions {
 	southwest = 2,
 	west = 1,
 	northwest = 0
-};
+} directions;
 
 typedef struct led {
 	uint16_t period;
 	uint16_t duty;
 	uint16_t ticks;
 	uint8_t active;
-};
+} led;
 
 led array[8];
 
 void setHeading(directions dir);
-void update(void);
+void updateDuty(void);
 
 #endif

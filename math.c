@@ -35,15 +35,15 @@ extern _q15 x0, y0, z0;
 _q15 theta, phi;
 inline void getAngles(void) {
 	// Calculate vector displacement
-	_q15 dx = arr[0] - x0;
-	_q15 dy = arr[1] - y0;
-	_q15 dz = arr[2] - z0;
+	const volatile _q15 dx = arr[0] - x0;
+	const volatile _q15 dy = arr[1] - y0;
+	const volatile _q15 dz = arr[2] - z0;
 
 	// Calculate xy-plane radius
-	_q15 r = _Q15mag(dx, dy);
+	const volatile _q15 r = _Q15mag(dx, dy);
 
 	// Calculate 3d radius
-	_q15 rho = _Q15mag(r, dz);
+	const volatile _q15 rho = _Q15mag(r, dz);
 
 	// Compute theta and phi using the lengths
 	theta = _Q15atan2(dy, dx);
