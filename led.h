@@ -2,6 +2,7 @@
 #define LED_H_
 
 #include <dependencies.h>
+#include "spi.h"
 
 typedef enum directions {
 	north = 7,
@@ -23,7 +24,9 @@ typedef struct led {
 
 led array[8];
 
+void initLEDs(void);
 void setHeading(directions dir);
 void updateDuty(void);
+void display(void);
 
 #endif

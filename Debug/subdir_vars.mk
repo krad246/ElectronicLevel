@@ -18,6 +18,7 @@ C_SRCS += \
 ../main.c \
 ../math.c \
 ../print.c \
+../spi.c \
 ../tasks.c \
 ../timer.c 
 
@@ -28,6 +29,7 @@ C_DEPS += \
 ./main.d \
 ./math.d \
 ./print.d \
+./spi.d \
 ./tasks.d \
 ./timer.d 
 
@@ -38,6 +40,7 @@ OBJS += \
 ./main.obj \
 ./math.obj \
 ./print.obj \
+./spi.obj \
 ./tasks.obj \
 ./timer.obj 
 
@@ -48,6 +51,7 @@ OBJS__QUOTED += \
 "main.obj" \
 "math.obj" \
 "print.obj" \
+"spi.obj" \
 "tasks.obj" \
 "timer.obj" 
 
@@ -58,6 +62,7 @@ C_DEPS__QUOTED += \
 "main.d" \
 "math.d" \
 "print.d" \
+"spi.d" \
 "tasks.d" \
 "timer.d" 
 
@@ -71,6 +76,7 @@ C_SRCS__QUOTED += \
 "../main.c" \
 "../math.c" \
 "../print.c" \
+"../spi.c" \
 "../tasks.c" \
 "../timer.c" 
 

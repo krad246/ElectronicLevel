@@ -26,6 +26,8 @@ main.obj: ../math.h
 main.obj: ../timer.h
 main.obj: ../print.h
 main.obj: ../button.h
+main.obj: ../led.h
+main.obj: ../spi.h
 
 ../main.c: 
 ../tasks.h: 
@@ -53,3 +55,5 @@ C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.5.LTS/include/linkage.h:
 ../timer.h: 
 ../print.h: 
 ../button.h: 
+../led.h: 
+../spi.h: 

@@ -49,12 +49,18 @@ inline void printReadings(void) {
 	UARTtoADC();
 }
 
+extern void updateOnTheta(void);
+extern void display(void);
+
 // Function to set up tasks
 void taskSetup(void) {
 	registerTask(sysTick, 0, 1000);
-	registerTask(processData, 1, 5);
-	registerTask(printReadings, 2, 1000);
-	registerTask(getAngles, 3, 17);
+	registerTask(printReadings, 1, 1000);
+
+	registerTask(processData, 2, 20);
+	registerTask(getAngles, 3, 20);
+	registerTask(updateOnTheta, 4, 20);
+	registerTask(display, 5, 20);
 }
 
 // Initializes a task in the proc table

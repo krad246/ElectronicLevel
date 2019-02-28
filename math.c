@@ -32,7 +32,7 @@ inline void processData(void) {
 
 // Calculate the angle of the device in fixed point
 extern _q15 x0, y0, z0;
-_q15 theta, phi;
+_q11 theta, phi;
 inline void getAngles(void) {
 	// Calculate vector displacement
 	const volatile _q15 dx = arr[0] - x0;
@@ -45,7 +45,7 @@ inline void getAngles(void) {
 	// Calculate 3d radius
 	const volatile _q15 rho = _Q15mag(r, dz);
 
-	// Compute theta and phi using the lengths
-	theta = _Q15atan2(dy, dx);
-	phi = _Q15atan2(dz, rho);
+	// Compute theta and phi using the lengths, normalize it to [-1, 1)
+	theta = _Q15atan2PU(dy, dx);
+	phi = _Q15atan2PU(dz, rho);
 }

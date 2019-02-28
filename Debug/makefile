@@ -16,6 +16,7 @@ ORDERED_OBJS += \
 "./main.obj" \
 "./math.obj" \
 "./print.obj" \
+"./spi.obj" \
 "./tasks.obj" \
 "./timer.obj" \
 "../lnk_msp430g2553.cmd" \
@@ -161,8 +162,8 @@ ElectronicLevel.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "adc.obj" "button.obj" "led.obj" "main.obj" "math.obj" "print.obj" "tasks.obj" "timer.obj" 
-	-$(RM) "adc.d" "button.d" "led.d" "main.d" "math.d" "print.d" "tasks.d" "timer.d" 
+	-$(RM) "adc.obj" "button.obj" "led.obj" "main.obj" "math.obj" "print.obj" "spi.obj" "tasks.obj" "timer.obj" 
+	-$(RM) "adc.d" "button.d" "led.d" "main.d" "math.d" "print.d" "spi.d" "tasks.d" "timer.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

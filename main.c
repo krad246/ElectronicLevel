@@ -4,6 +4,8 @@
 #include "timer.h"
 #include "print.h"
 #include "button.h"
+#include "led.h"
+#include "spi.h"
 
 void initPorts(void);
 
@@ -25,6 +27,9 @@ int main(void) {
 
 	// Initialize the UART for printing
 	initUART();
+
+	// Initialize the SPI for LED matrix
+	initSPI();
 
 	// Begin calibration
 	print("\n\r");
