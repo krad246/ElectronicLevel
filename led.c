@@ -8,6 +8,13 @@ void initLEDs() {
 
 	P2DIR |= BIT0;
 	P2OUT &= ~BIT0;
+
+	uint8_t i;
+	led *l;
+	for (i = 0; i < 8; i++) {
+		*l = (led) { 0, 0, 0, 0 };
+		l++;
+	}
 }
 
 // Sets heading of LED array so that 3 are illuminated
@@ -63,65 +70,82 @@ inline void updateDuty(void) {
 	}
 }
 
-/*	Given an angle measurement, can we 
-	mathematically determine the LED that maps to it? 
-	Indeed, we can with some math. Depending on the half
-	the angle lies on, the formulas are different:
-	
-	if (theta between - pi / 4 and - pi) then
-		led = - 8 * theta - 1
-	else 
-		led = - 8 * theta + 7
+// List of directions on LED ring except for the point of wrapping
+static const directions mapping[7] = {
+	southeast,
+	east,
+	northeast,
+	north,
+	northwest,
+	west,
+	southwest
+};
 
-	Since theta is fixed between [-1, 1), we can use a Q11 to hold
-	a value in [-8, 8) successfully and retain some precision. */
+// Adjacent entries correspond to a direction
+static const _q15 slices[8] = {
+		_Q15(-0.875),
+		_Q15(-0.625),
+		_Q15(-0.375),
+		_Q15(-0.125),
+		_Q15(0.125),
+		_Q15(0.375),
+		_Q15(0.625),
+		_Q15(0.875)
+};
 
-// Update functions for LED heading on the XY plane
+static directions dir;
+static orientations orientation;
+
+// Function to update the heading of the LED ring
 extern _q15 theta, phi;
 inline void updateOnTheta(void) {
-	volatile directions dir;
-	_q11 fpDir;
+	// If the angle theta is less than -165 degrees or greater than 165 degrees it's south
+	// Set the direction and leave; we're done
+	if (theta < slices[0] || theta > slices[7]) {
+		dir = south;
+		return;
+	}
 
-	// Downcast theta to Q11 and get 8 in Q11 format
-	const volatile _q7 theta7 = _QtoQ7(theta);
-	const volatile _q7 mapping = _Q7(- 8);
+	// Otherwise compare the angle to every interval and check where it lies
+	uint8_t i;
+	for (i = 0; i < 7; i++) {
+		// Moving counterclockwise, the 'bottom' and 'top' of the range
+		const _q15 boundaryBot = slices[i];
+		const _q15 boundaryTop = slices[i + 1];
 
-	// Angle comparisons with full precision
-	const volatile _q15 mPi = _Q15(- 1);
-	const volatile _q15 mPiFour = _Q15(- 0.25);
-
-	// Check which formula to use and perform the mapping with the function
-	if (mPi <= theta && theta <= mPiFour) {
-		fpDir = _Q7mpy(theta7, mapping) - _Q7(1);
-	} else {
-		fpDir = _Q7mpy(theta7, mapping) + _Q7(7);
-	} 
-
-	// Extract the integer part of the output and set the heading to that
-	dir = (directions)  (_Q7int(fpDir) & 7);
-	setHeading(dir);
+		// If theta lies within this range, set the heading and break
+		if (theta > boundaryBot && theta < boundaryTop) {
+			dir = mapping[i];
+			break;
+		}
+	}
 }
-//
-//inline void updateOnPhi(void) {
-//	directions dir;
-//	_q15 fpDir;
-//	if (mPi <= phi && phi <= mPiFour) {
-//		fpDir = _Q15mpyQX(phi, 7, mInvPiFour, 7) - _Q15(1);
-//	} else {
-//		fpDir = _Q15mpyQX(phi, 7, mInvPiFour, 7) + _Q15(7);
-//	}
-//
-//	dir = (directions) _Q15int(fpDir);
-//}
+
+inline void updateOnPhi(void) {
+	// If the angle phi is less than -165 degrees or greater than 165 degrees it's south
+	// Set the direction and leave; we're done
+	if (phi < slices[0] || phi > slices[7]) {
+		return;
+	}
+}
 
 // Display the actual data on the array
 inline void display(void) {
-	int8_t i;
+	// Update the heading
+	setHeading(dir);
+
+	// Bit vector representing the LEDs currently active
 	uint8_t ledState = 0;
+
+	// Loop through all of the LEDs in the array from MSB to least
+	int8_t i;
 	led *l = array;
 	for (i = 7; i >= 0; i--) {
+		// Get the active status and place it at the appropriate bit location
 		const uint8_t active = l->active;
 		ledState |= (active << i);
 	}
+
+	// Use SPI to send the values to the LED array and latch the data
 	send(ledState);
 }

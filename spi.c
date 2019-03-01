@@ -34,6 +34,7 @@ void initSPI() {
 
 // Write the byte to the TX buffer and latch the data
 inline void send(uint8_t byteValue) {
+	// Set the TX buffer and wait for the transaction to complete
 	UCB0TXBUF = byteValue;
 	while (UCB0STAT & UCBUSY);
 

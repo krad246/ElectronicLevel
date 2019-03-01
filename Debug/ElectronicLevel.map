@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker PC v18.1.5                     
 ******************************************************************************
->> Linked Thu Feb 28 12:51:56 2019
+>> Linked Fri Mar  1 01:47:45 2019
 
 OUTPUT FILE NAME:   <ElectronicLevel.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0000cbde
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0000cb5a
 
 
 MEMORY CONFIGURATION
@@ -14,12 +14,12 @@ MEMORY CONFIGURATION
   SFR                   00000000   00000010  00000000  00000010  RWIX
   PERIPHERALS_8BIT      00000010   000000f0  00000000  000000f0  RWIX
   PERIPHERALS_16BIT     00000100   00000100  00000000  00000100  RWIX
-  RAM                   00000200   00000200  000000f5  0000010b  RWIX
+  RAM                   00000200   00000200  000000f7  00000109  RWIX
   INFOD                 00001000   00000040  00000000  00000040  RWIX
   INFOC                 00001040   00000040  00000000  00000040  RWIX
   INFOB                 00001080   00000040  00000000  00000040  RWIX
   INFOA                 000010c0   00000040  00000000  00000040  RWIX
-  FLASH                 0000c000   00003fde  00001060  00002f7e  RWIX
+  FLASH                 0000c000   00003fde  00000ffa  00002fe4  RWIX
   BSLSIGNATURE          0000ffde   00000002  00000002  00000000  RWIX  ffff 
   INT00                 0000ffe0   00000002  00000002  00000000  RWIX
   INT01                 0000ffe2   00000002  00000000  00000002  RWIX
@@ -44,90 +44,92 @@ SECTION ALLOCATION MAP
  output                                  attributes/
 section   page    origin      length       input sections
 --------  ----  ----------  ----------   ----------------
-.bss       0    00000200    00000086     UNINITIALIZED
+.bss       0    00000200    00000088     UNINITIALIZED
                   00000200    00000040     (.common:array)
                   00000240    0000003c     (.common:tasks)
-                  0000027c    00000002     (.common:phi)
-                  0000027e    00000002     (.common:theta)
-                  00000280    00000002     (.common:x0)
-                  00000282    00000002     (.common:y0)
-                  00000284    00000002     (.common:z0)
+                  0000027c    00000002     led.obj (.bss)
+                  0000027e    00000002     (.common:phi)
+                  00000280    00000002     (.common:theta)
+                  00000282    00000002     (.common:x0)
+                  00000284    00000002     (.common:y0)
+                  00000286    00000002     (.common:z0)
 
-.data      0    00000286    0000001f     UNINITIALIZED
-                  00000286    0000000c     main.obj (.data:calibVals)
-                  00000292    00000006     math.obj (.data:arr)
-                  00000298    00000006     adc.obj (.data:samples)
-                  0000029e    00000004     tasks.obj (.data)
-                  000002a2    00000002     button.obj (.data)
-                  000002a4    00000001     main.obj (.data)
+.data      0    00000288    0000001f     UNINITIALIZED
+                  00000288    0000000c     main.obj (.data:calibVals)
+                  00000294    00000006     math.obj (.data:arr)
+                  0000029a    00000006     adc.obj (.data:samples)
+                  000002a0    00000004     tasks.obj (.data)
+                  000002a4    00000002     button.obj (.data)
+                  000002a6    00000001     main.obj (.data)
 
 .stack     0    000003b0    00000050     UNINITIALIZED
                   000003b0    00000002     rts430_eabi.lib : boot.c.obj (.stack)
                   000003b2    0000004e     --HOLE--
 
-.text      0    0000c000    00000d02     
+.text      0    0000c000    00000c7e     
                   0000c000    00000146     print.obj (.text:print)
                   0000c146    00000108     QmathLib_CCS_MPYsoftware_CPU.lib : _QNatan2.o (.text:_Q15atan2PU)
-                  0000c24e    000000fc     main.obj (.text:outputFunction)
-                  0000c34a    000000ce     led.obj (.text:updateOnTheta)
-                  0000c418    000000ca     QmathLib_CCS_MPYsoftware_CPU.lib : _QNsqrt.o (.text:_Qmag)
-                  0000c4e2    0000009e     tasks.obj (.text:printReadings)
-                  0000c580    0000007c     rts430_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  0000c5fc    0000007c     main.obj (.text:main)
-                  0000c678    0000006a     math.obj (.text:getAngles)
-                  0000c6e2    00000064     QmathLib_CCS_MPYsoftware_CPU.lib : _QNdiv.o (.text:_UQ15div)
-                  0000c746    00000062     tasks.obj (.text:taskSetup)
-                  0000c7a8    0000005e     QmathLib_CCS_MPYsoftware_CPU.lib : __QNmpySW.o (.text:_Q7mpy)
-                  0000c806    0000005c                                      : __QNmpySW.o (.text:_Q15mpy)
-                  0000c862    0000005c     button.obj (.text:debouncer)
-                  0000c8be    0000005c     math.obj (.text:processData)
-                  0000c91a    00000058     print.obj (.text:xtoa)
-                  0000c972    0000004c     rts430_eabi.lib : lsr16.asm.obj (.text)
-                  0000c9be    00000046     spi.obj (.text:initSPI)
-                  0000ca04    00000046     timer.obj (.text:scheduler)
-                  0000ca4a    00000042     rts430_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
-                  0000ca8c    0000002e     adc.obj (.text:initADC)
-                  0000caba    0000002e     print.obj (.text:initUART)
-                  0000cae8    0000002c     QmathLib_CCS_MPYsoftware_CPU.lib : __QNumpySW.o (.text:_Q15umpy)
-                  0000cb14    0000002c     rts430_eabi.lib : asr16.asm.obj (.text)
-                  0000cb40    0000002c                     : lsl16.asm.obj (.text)
-                  0000cb6c    0000002a     button.obj (.text:onButtonPress)
-                  0000cb96    00000026     rts430_eabi.lib : mult32.asm.obj (.text)
-                  0000cbbc    00000022     led.obj (.text:display)
-                  0000cbde    0000001c     rts430_eabi.lib : boot.c.obj (.text:_c_int00_noargs)
-                  0000cbfa    0000001a     button.obj (.text:initButton)
-                  0000cc14    0000001a     print.obj (.text:puts)
-                  0000cc2e    00000018     timer.obj (.text:initTimer)
-                  0000cc46    00000014     adc.obj (.text:UARTtoADC)
-                  0000cc5a    00000014     rts430_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
-                  0000cc6e    00000014     spi.obj (.text:send)
-                  0000cc82    00000012     print.obj (.text:ADCtoUART)
-                  0000cc94    00000012     rts430_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  0000cca6    00000012                     : memcpy.c.obj (.text:memcpy)
-                  0000ccb8    00000012     adc.obj (.text:readADC)
-                  0000ccca    00000010     rts430_eabi.lib : epilog.asm.obj (.text)
-                  0000ccda    0000000a     print.obj (.text:USCI0RX_ISR)
-                  0000cce4    0000000a     tasks.obj (.text:sysTick)
-                  0000ccee    00000008     rts430_eabi.lib : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
-                  0000ccf6    00000006                     : exit.c.obj (.text:abort)
-                  0000ccfc    00000004                     : pre_init.c.obj (.text:_system_pre_init)
-                  0000cd00    00000002                     : startup.c.obj (.text:_system_post_cinit)
+                  0000c24e    000000f6     main.obj (.text:outputFunction)
+                  0000c344    000000ca     QmathLib_CCS_MPYsoftware_CPU.lib : _QNsqrt.o (.text:_Qmag)
+                  0000c40e    0000009e     tasks.obj (.text:printReadings)
+                  0000c4ac    0000008c     led.obj (.text:display)
+                  0000c538    0000007c     rts430_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  0000c5b4    0000007c     main.obj (.text:main)
+                  0000c630    0000006a     math.obj (.text:getAngles)
+                  0000c69a    00000064     QmathLib_CCS_MPYsoftware_CPU.lib : _QNdiv.o (.text:_UQ15div)
+                  0000c6fe    00000062     tasks.obj (.text:taskSetup)
+                  0000c760    0000005c     QmathLib_CCS_MPYsoftware_CPU.lib : __QNmpySW.o (.text:_Q15mpy)
+                  0000c7bc    0000005c     button.obj (.text:debouncer)
+                  0000c818    0000005c     math.obj (.text:processData)
+                  0000c874    00000058     print.obj (.text:xtoa)
+                  0000c8cc    0000004c     rts430_eabi.lib : lsr16.asm.obj (.text)
+                  0000c918    00000046     spi.obj (.text:initSPI)
+                  0000c95e    00000046     timer.obj (.text:scheduler)
+                  0000c9a4    00000044     led.obj (.text:updateOnTheta)
+                  0000c9e8    00000042     rts430_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
+                  0000ca2a    0000002e     adc.obj (.text:initADC)
+                  0000ca58    0000002e     print.obj (.text:initUART)
+                  0000ca86    0000002c     QmathLib_CCS_MPYsoftware_CPU.lib : __QNumpySW.o (.text:_Q15umpy)
+                  0000cab2    0000002c     rts430_eabi.lib : asr16.asm.obj (.text)
+                  0000cade    0000002c                     : lsl16.asm.obj (.text)
+                  0000cb0a    0000002a     button.obj (.text:onButtonPress)
+                  0000cb34    00000026     rts430_eabi.lib : mult32.asm.obj (.text)
+                  0000cb5a    0000001c                     : boot.c.obj (.text:_c_int00_noargs)
+                  0000cb76    0000001a     button.obj (.text:initButton)
+                  0000cb90    0000001a     print.obj (.text:puts)
+                  0000cbaa    00000018     timer.obj (.text:initTimer)
+                  0000cbc2    00000014     adc.obj (.text:UARTtoADC)
+                  0000cbd6    00000014     rts430_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
+                  0000cbea    00000014     spi.obj (.text:send)
+                  0000cbfe    00000012     print.obj (.text:ADCtoUART)
+                  0000cc10    00000012     rts430_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  0000cc22    00000012                     : memcpy.c.obj (.text:memcpy)
+                  0000cc34    00000012     adc.obj (.text:readADC)
+                  0000cc46    00000010     rts430_eabi.lib : epilog.asm.obj (.text)
+                  0000cc56    0000000a     print.obj (.text:USCI0RX_ISR)
+                  0000cc60    0000000a     tasks.obj (.text:sysTick)
+                  0000cc6a    00000008     rts430_eabi.lib : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
+                  0000cc72    00000006                     : exit.c.obj (.text:abort)
+                  0000cc78    00000004                     : pre_init.c.obj (.text:_system_pre_init)
+                  0000cc7c    00000002                     : startup.c.obj (.text:_system_post_cinit)
 
-.const     0    0000cd02    00000344     
-                  0000cd02    00000100     QmathLib_CCS_MPYsoftware_CPU.lib : _QNtables.o (.const:_Q16div_coeffs)
-                  0000ce02    000000c0                                      : _QNtables.o (.const:_Q16sqrt_coeffs)
-                  0000cec2    00000084                                      : _QNtables.o (.const:_Q16atanPU_coeffs)
-                  0000cf46    00000080     main.obj (.const:.string)
-                  0000cfc6    00000042     tasks.obj (.const:.string)
-                  0000d008    00000028     print.obj (.const:dv)
-                  0000d030    00000010     print.obj (.const:.string:hex$1)
-                  0000d040    00000006     tasks.obj (.const:$P$T1$1)
+.const     0    0000cc7e    00000362     
+                  0000cc7e    00000100     QmathLib_CCS_MPYsoftware_CPU.lib : _QNtables.o (.const:_Q16div_coeffs)
+                  0000cd7e    000000c0                                      : _QNtables.o (.const:_Q16sqrt_coeffs)
+                  0000ce3e    00000084                                      : _QNtables.o (.const:_Q16atanPU_coeffs)
+                  0000cec2    00000080     main.obj (.const:.string)
+                  0000cf42    00000042     tasks.obj (.const:.string)
+                  0000cf84    00000028     print.obj (.const:dv)
+                  0000cfac    00000010     print.obj (.const:.string:hex$1)
+                  0000cfbc    00000010     led.obj (.const:slices)
+                  0000cfcc    0000000e     led.obj (.const:mapping)
+                  0000cfda    00000006     tasks.obj (.const:$P$T1$1)
 
-.cinit     0    0000d046    0000001a     
-                  0000d046    00000008     (.cinit..data.load) [load image, compression = lzss]
-                  0000d04e    00000006     (__TI_handler_table)
-                  0000d054    00000004     (.cinit..bss.load) [load image, compression = zero_init]
-                  0000d058    00000008     (__TI_cinit_table)
+.cinit     0    0000cfe0    0000001a     
+                  0000cfe0    00000008     (.cinit..data.load) [load image, compression = lzss]
+                  0000cfe8    00000006     (__TI_handler_table)
+                  0000cfee    00000004     (.cinit..bss.load) [load image, compression = zero_init]
+                  0000cff2    00000008     (__TI_cinit_table)
 
 .binit     0    0000c000    00000000     
 
@@ -192,16 +194,16 @@ MODULE SUMMARY
        ------                       ----   -------   -------
     .\
        print.obj                    514    58        0      
-       main.obj                     376    128       19     
+       main.obj                     370    128       19     
        tasks.obj                    266    72        64     
-       led.obj                      240    0         64     
+       led.obj                      208    30        66     
        math.obj                     198    0         10     
        button.obj                   160    4         2      
        timer.obj                    94     2         0      
        adc.obj                      84     0         6      
        spi.obj                      90     0         0      
     +--+----------------------------+------+---------+---------+
-       Total:                       2022   264       165    
+       Total:                       1984   294       167    
                                                             
     C:\ti\ccsv8\tools\compiler\ti-cgt-msp430_18.1.5.LTS\lib\rts430_eabi.lib
        copy_decompress_lzss.c.obj   124    0         0      
@@ -235,28 +237,28 @@ MODULE SUMMARY
        _QNtables.o                  0      580       0      
        _QNatan2.o                   264    0         0      
        _QNsqrt.o                    202    0         0      
-       __QNmpySW.o                  186    0         0      
        _QNdiv.o                     100    0         0      
+       __QNmpySW.o                  92     0         0      
        __QNumpySW.o                 44     0         0      
     +--+----------------------------+------+---------+---------+
-       Total:                       796    580       0      
+       Total:                       702    580       0      
                                                             
        Stack:                       0      0         80     
        Linker Generated:            0      26        0      
     +--+----------------------------+------+---------+---------+
-       Grand Total:                 3330   890       245    
+       Grand Total:                 3198   920       247    
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 0000d058 records: 2, size/record: 4, table size: 8
-	.data: load addr=0000d046, load size=00000008 bytes, run addr=00000286, run size=0000001f bytes, compression=lzss
-	.bss: load addr=0000d054, load size=00000004 bytes, run addr=00000200, run size=00000086 bytes, compression=zero_init
+__TI_cinit_table @ 0000cff2 records: 2, size/record: 4, table size: 8
+	.data: load addr=0000cfe0, load size=00000008 bytes, run addr=00000288, run size=0000001f bytes, compression=lzss
+	.bss: load addr=0000cfee, load size=00000004 bytes, run addr=00000200, run size=00000088 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 0000d04e records: 3, size/record: 2, table size: 6
+__TI_handler_table @ 0000cfe8 records: 3, size/record: 2, table size: 6
 	index: 0, handler: __TI_zero_init
 	index: 1, handler: __TI_decompress_lzss
 	index: 2, handler: __TI_decompress_none
@@ -273,11 +275,11 @@ address   name
 00000049  ADC10DTC1                     
 000001b4  ADC10MEM                      
 000001bc  ADC10SA                       
-0000cc82  ADCtoUART                     
+0000cbfe  ADCtoUART                     
 00000057  BCSCTL1                       
 00000058  BCSCTL2                       
 00000053  BCSCTL3                       
-0000ccf6  C$$EXIT                       
+0000cc72  C$$EXIT                       
 00000059  CACTL1                        
 0000005a  CACTL2                        
 000010fb  CALBC1_12MHZ                  
@@ -344,7 +346,7 @@ address   name
 000010c0  TLV_CHECKSUM                  
 000010f7  TLV_DCO_30_LEN                
 000010f6  TLV_DCO_30_TAG                
-0000cc46  UARTtoADC                     
+0000cbc2  UARTtoADC                     
 0000005d  UCA0ABCTL                     
 00000062  UCA0BR0                       
 00000063  UCA0BR1                       
@@ -366,27 +368,26 @@ address   name
 0000006e  UCB0RXBUF                     
 0000006d  UCB0STAT                      
 0000006f  UCB0TXBUF                     
-0000ccda  USCI0RX_ISR                   
+0000cc56  USCI0RX_ISR                   
 00000120  WDTCTL                        
 0000c146  _Q15atan2PU                   
-0000c806  _Q15mpy                       
-0000cae8  _Q15umpy                      
-0000cec2  _Q16atanPU_coeffs             
-0000cd02  _Q16div_coeffs                
-0000ce02  _Q16sqrt_coeffs               
-0000c7a8  _Q7mpy                        
-0000c418  _Qmag                         
-0000c6e2  _UQ15div                      
+0000c760  _Q15mpy                       
+0000ca86  _Q15umpy                      
+0000ce3e  _Q16atanPU_coeffs             
+0000cc7e  _Q16div_coeffs                
+0000cd7e  _Q16sqrt_coeffs               
+0000c344  _Qmag                         
+0000c69a  _UQ15div                      
 00000400  __STACK_END                   
 00000050  __STACK_SIZE                  
-0000d058  __TI_CINIT_Base               
-0000d060  __TI_CINIT_Limit              
-0000d04e  __TI_Handler_Table_Base       
-0000d054  __TI_Handler_Table_Limit      
-0000ccee  __TI_ISR_TRAP                 
-0000ca4a  __TI_auto_init_nobinit_nopinit
-0000c580  __TI_decompress_lzss          
-0000cc94  __TI_decompress_none          
+0000cff2  __TI_CINIT_Base               
+0000cffa  __TI_CINIT_Limit              
+0000cfe8  __TI_Handler_Table_Base       
+0000cfee  __TI_Handler_Table_Limit      
+0000cc6a  __TI_ISR_TRAP                 
+0000c9e8  __TI_auto_init_nobinit_nopinit
+0000c538  __TI_decompress_lzss          
+0000cc10  __TI_decompress_none          
 0000ffe0  __TI_int00                    
 0000ffe4  __TI_int02                    
 0000ffe6  __TI_int03                    
@@ -403,105 +404,105 @@ address   name
 ffffffff  __TI_pprof_out_hndl           
 ffffffff  __TI_prof_data_size           
 ffffffff  __TI_prof_data_start          
-0000cc5a  __TI_zero_init_nomemset       
+0000cbd6  __TI_zero_init_nomemset       
 ffffffff  __c_args__                    
-0000ccd6  __mspabi_func_epilog_1        
-0000ccd4  __mspabi_func_epilog_2        
-0000ccd2  __mspabi_func_epilog_3        
-0000ccd0  __mspabi_func_epilog_4        
-0000ccce  __mspabi_func_epilog_5        
-0000cccc  __mspabi_func_epilog_6        
-0000ccca  __mspabi_func_epilog_7        
-0000cb96  __mspabi_mpyl                 
-0000cb96  __mspabi_mpyl_sw              
-0000cb40  __mspabi_slli                 
-0000cb68  __mspabi_slli_1               
-0000cb56  __mspabi_slli_10              
-0000cb54  __mspabi_slli_11              
-0000cb52  __mspabi_slli_12              
-0000cb50  __mspabi_slli_13              
-0000cb4e  __mspabi_slli_14              
-0000cb4c  __mspabi_slli_15              
-0000cb66  __mspabi_slli_2               
-0000cb64  __mspabi_slli_3               
-0000cb62  __mspabi_slli_4               
-0000cb60  __mspabi_slli_5               
-0000cb5e  __mspabi_slli_6               
-0000cb5c  __mspabi_slli_7               
-0000cb5a  __mspabi_slli_8               
-0000cb58  __mspabi_slli_9               
-0000cb14  __mspabi_srai                 
-0000cb3c  __mspabi_srai_1               
-0000cb2a  __mspabi_srai_10              
-0000cb28  __mspabi_srai_11              
-0000cb26  __mspabi_srai_12              
-0000cb24  __mspabi_srai_13              
-0000cb22  __mspabi_srai_14              
-0000cb20  __mspabi_srai_15              
-0000cb3a  __mspabi_srai_2               
-0000cb38  __mspabi_srai_3               
-0000cb36  __mspabi_srai_4               
-0000cb34  __mspabi_srai_5               
-0000cb32  __mspabi_srai_6               
-0000cb30  __mspabi_srai_7               
-0000cb2e  __mspabi_srai_8               
-0000cb2c  __mspabi_srai_9               
-0000c972  __mspabi_srli                 
-0000c9b8  __mspabi_srli_1               
-0000c994  __mspabi_srli_10              
-0000c990  __mspabi_srli_11              
-0000c98c  __mspabi_srli_12              
-0000c988  __mspabi_srli_13              
-0000c984  __mspabi_srli_14              
-0000c980  __mspabi_srli_15              
-0000c9b4  __mspabi_srli_2               
-0000c9b0  __mspabi_srli_3               
-0000c9ac  __mspabi_srli_4               
-0000c9a8  __mspabi_srli_5               
-0000c9a4  __mspabi_srli_6               
-0000c9a0  __mspabi_srli_7               
-0000c99c  __mspabi_srli_8               
-0000c998  __mspabi_srli_9               
-0000cbde  _c_int00_noargs               
+0000cc52  __mspabi_func_epilog_1        
+0000cc50  __mspabi_func_epilog_2        
+0000cc4e  __mspabi_func_epilog_3        
+0000cc4c  __mspabi_func_epilog_4        
+0000cc4a  __mspabi_func_epilog_5        
+0000cc48  __mspabi_func_epilog_6        
+0000cc46  __mspabi_func_epilog_7        
+0000cb34  __mspabi_mpyl                 
+0000cb34  __mspabi_mpyl_sw              
+0000cade  __mspabi_slli                 
+0000cb06  __mspabi_slli_1               
+0000caf4  __mspabi_slli_10              
+0000caf2  __mspabi_slli_11              
+0000caf0  __mspabi_slli_12              
+0000caee  __mspabi_slli_13              
+0000caec  __mspabi_slli_14              
+0000caea  __mspabi_slli_15              
+0000cb04  __mspabi_slli_2               
+0000cb02  __mspabi_slli_3               
+0000cb00  __mspabi_slli_4               
+0000cafe  __mspabi_slli_5               
+0000cafc  __mspabi_slli_6               
+0000cafa  __mspabi_slli_7               
+0000caf8  __mspabi_slli_8               
+0000caf6  __mspabi_slli_9               
+0000cab2  __mspabi_srai                 
+0000cada  __mspabi_srai_1               
+0000cac8  __mspabi_srai_10              
+0000cac6  __mspabi_srai_11              
+0000cac4  __mspabi_srai_12              
+0000cac2  __mspabi_srai_13              
+0000cac0  __mspabi_srai_14              
+0000cabe  __mspabi_srai_15              
+0000cad8  __mspabi_srai_2               
+0000cad6  __mspabi_srai_3               
+0000cad4  __mspabi_srai_4               
+0000cad2  __mspabi_srai_5               
+0000cad0  __mspabi_srai_6               
+0000cace  __mspabi_srai_7               
+0000cacc  __mspabi_srai_8               
+0000caca  __mspabi_srai_9               
+0000c8cc  __mspabi_srli                 
+0000c912  __mspabi_srli_1               
+0000c8ee  __mspabi_srli_10              
+0000c8ea  __mspabi_srli_11              
+0000c8e6  __mspabi_srli_12              
+0000c8e2  __mspabi_srli_13              
+0000c8de  __mspabi_srli_14              
+0000c8da  __mspabi_srli_15              
+0000c90e  __mspabi_srli_2               
+0000c90a  __mspabi_srli_3               
+0000c906  __mspabi_srli_4               
+0000c902  __mspabi_srli_5               
+0000c8fe  __mspabi_srli_6               
+0000c8fa  __mspabi_srli_7               
+0000c8f6  __mspabi_srli_8               
+0000c8f2  __mspabi_srli_9               
+0000cb5a  _c_int00_noargs               
 0000fffe  _reset_vector                 
 000003b0  _stack                        
-0000cd00  _system_post_cinit            
-0000ccfc  _system_pre_init              
-0000ccf6  abort                         
-00000292  arr                           
+0000cc7c  _system_post_cinit            
+0000cc78  _system_pre_init              
+0000cc72  abort                         
+00000294  arr                           
 00000200  array                         
-000002a3  count                         
-0000c862  debouncer                     
-0000cbbc  display                       
-0000c678  getAngles                     
-0000ca8c  initADC                       
-0000cbfa  initButton                    
-0000c9be  initSPI                       
-0000cc2e  initTimer                     
-0000caba  initUART                      
-0000c5fc  main                          
-0000cca6  memcpy                        
-0000cb6c  onButtonPress                 
+000002a5  count                         
+0000c7bc  debouncer                     
+0000c4ac  display                       
+0000c630  getAngles                     
+0000ca2a  initADC                       
+0000cb76  initButton                    
+0000c918  initSPI                       
+0000cbaa  initTimer                     
+0000ca58  initUART                      
+0000c5b4  main                          
+0000cc22  memcpy                        
+0000cb0a  onButtonPress                 
 0000c24e  outputFunction                
-0000027c  phi                           
+0000027e  phi                           
 0000c000  print                         
-0000c4e2  printReadings                 
-0000c8be  processData                   
-0000cc14  puts                          
-0000ccb8  readADC                       
-00000298  samples                       
-0000ca04  scheduler                     
-0000cc6e  send                          
-000002a2  state                         
-0000cce4  sysTick                       
-0000c746  taskSetup                     
+0000c40e  printReadings                 
+0000c818  processData                   
+0000cb90  puts                          
+0000cc34  readADC                       
+0000029a  samples                       
+0000c95e  scheduler                     
+0000cbea  send                          
+000002a4  state                         
+0000cc60  sysTick                       
+0000c6fe  taskSetup                     
 00000240  tasks                         
-0000027e  theta                         
-0000029e  tick                          
-0000c34a  updateOnTheta                 
-00000280  x0                            
-00000282  y0                            
-00000284  z0                            
+00000280  theta                         
+000002a0  tick                          
+0000c9a4  updateOnTheta                 
+00000282  x0                            
+00000284  y0                            
+00000286  z0                            
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -596,16 +597,16 @@ address   name
 000001bc  ADC10SA                       
 00000200  array                         
 00000240  tasks                         
-0000027c  phi                           
-0000027e  theta                         
-00000280  x0                            
-00000282  y0                            
-00000284  z0                            
-00000292  arr                           
-00000298  samples                       
-0000029e  tick                          
-000002a2  state                         
-000002a3  count                         
+0000027e  phi                           
+00000280  theta                         
+00000282  x0                            
+00000284  y0                            
+00000286  z0                            
+00000294  arr                           
+0000029a  samples                       
+000002a0  tick                          
+000002a4  state                         
+000002a5  count                         
 000003b0  _stack                        
 00000400  __STACK_END                   
 000010c0  TLV_CHECKSUM                  
@@ -624,108 +625,107 @@ address   name
 0000c000  print                         
 0000c146  _Q15atan2PU                   
 0000c24e  outputFunction                
-0000c34a  updateOnTheta                 
-0000c418  _Qmag                         
-0000c4e2  printReadings                 
-0000c580  __TI_decompress_lzss          
-0000c5fc  main                          
-0000c678  getAngles                     
-0000c6e2  _UQ15div                      
-0000c746  taskSetup                     
-0000c7a8  _Q7mpy                        
-0000c806  _Q15mpy                       
-0000c862  debouncer                     
-0000c8be  processData                   
-0000c972  __mspabi_srli                 
-0000c980  __mspabi_srli_15              
-0000c984  __mspabi_srli_14              
-0000c988  __mspabi_srli_13              
-0000c98c  __mspabi_srli_12              
-0000c990  __mspabi_srli_11              
-0000c994  __mspabi_srli_10              
-0000c998  __mspabi_srli_9               
-0000c99c  __mspabi_srli_8               
-0000c9a0  __mspabi_srli_7               
-0000c9a4  __mspabi_srli_6               
-0000c9a8  __mspabi_srli_5               
-0000c9ac  __mspabi_srli_4               
-0000c9b0  __mspabi_srli_3               
-0000c9b4  __mspabi_srli_2               
-0000c9b8  __mspabi_srli_1               
-0000c9be  initSPI                       
-0000ca04  scheduler                     
-0000ca4a  __TI_auto_init_nobinit_nopinit
-0000ca8c  initADC                       
-0000caba  initUART                      
-0000cae8  _Q15umpy                      
-0000cb14  __mspabi_srai                 
-0000cb20  __mspabi_srai_15              
-0000cb22  __mspabi_srai_14              
-0000cb24  __mspabi_srai_13              
-0000cb26  __mspabi_srai_12              
-0000cb28  __mspabi_srai_11              
-0000cb2a  __mspabi_srai_10              
-0000cb2c  __mspabi_srai_9               
-0000cb2e  __mspabi_srai_8               
-0000cb30  __mspabi_srai_7               
-0000cb32  __mspabi_srai_6               
-0000cb34  __mspabi_srai_5               
-0000cb36  __mspabi_srai_4               
-0000cb38  __mspabi_srai_3               
-0000cb3a  __mspabi_srai_2               
-0000cb3c  __mspabi_srai_1               
-0000cb40  __mspabi_slli                 
-0000cb4c  __mspabi_slli_15              
-0000cb4e  __mspabi_slli_14              
-0000cb50  __mspabi_slli_13              
-0000cb52  __mspabi_slli_12              
-0000cb54  __mspabi_slli_11              
-0000cb56  __mspabi_slli_10              
-0000cb58  __mspabi_slli_9               
-0000cb5a  __mspabi_slli_8               
-0000cb5c  __mspabi_slli_7               
-0000cb5e  __mspabi_slli_6               
-0000cb60  __mspabi_slli_5               
-0000cb62  __mspabi_slli_4               
-0000cb64  __mspabi_slli_3               
-0000cb66  __mspabi_slli_2               
-0000cb68  __mspabi_slli_1               
-0000cb6c  onButtonPress                 
-0000cb96  __mspabi_mpyl                 
-0000cb96  __mspabi_mpyl_sw              
-0000cbbc  display                       
-0000cbde  _c_int00_noargs               
-0000cbfa  initButton                    
-0000cc14  puts                          
-0000cc2e  initTimer                     
-0000cc46  UARTtoADC                     
-0000cc5a  __TI_zero_init_nomemset       
-0000cc6e  send                          
-0000cc82  ADCtoUART                     
-0000cc94  __TI_decompress_none          
-0000cca6  memcpy                        
-0000ccb8  readADC                       
-0000ccca  __mspabi_func_epilog_7        
-0000cccc  __mspabi_func_epilog_6        
-0000ccce  __mspabi_func_epilog_5        
-0000ccd0  __mspabi_func_epilog_4        
-0000ccd2  __mspabi_func_epilog_3        
-0000ccd4  __mspabi_func_epilog_2        
-0000ccd6  __mspabi_func_epilog_1        
-0000ccda  USCI0RX_ISR                   
-0000cce4  sysTick                       
-0000ccee  __TI_ISR_TRAP                 
-0000ccf6  C$$EXIT                       
-0000ccf6  abort                         
-0000ccfc  _system_pre_init              
-0000cd00  _system_post_cinit            
-0000cd02  _Q16div_coeffs                
-0000ce02  _Q16sqrt_coeffs               
-0000cec2  _Q16atanPU_coeffs             
-0000d04e  __TI_Handler_Table_Base       
-0000d054  __TI_Handler_Table_Limit      
-0000d058  __TI_CINIT_Base               
-0000d060  __TI_CINIT_Limit              
+0000c344  _Qmag                         
+0000c40e  printReadings                 
+0000c4ac  display                       
+0000c538  __TI_decompress_lzss          
+0000c5b4  main                          
+0000c630  getAngles                     
+0000c69a  _UQ15div                      
+0000c6fe  taskSetup                     
+0000c760  _Q15mpy                       
+0000c7bc  debouncer                     
+0000c818  processData                   
+0000c8cc  __mspabi_srli                 
+0000c8da  __mspabi_srli_15              
+0000c8de  __mspabi_srli_14              
+0000c8e2  __mspabi_srli_13              
+0000c8e6  __mspabi_srli_12              
+0000c8ea  __mspabi_srli_11              
+0000c8ee  __mspabi_srli_10              
+0000c8f2  __mspabi_srli_9               
+0000c8f6  __mspabi_srli_8               
+0000c8fa  __mspabi_srli_7               
+0000c8fe  __mspabi_srli_6               
+0000c902  __mspabi_srli_5               
+0000c906  __mspabi_srli_4               
+0000c90a  __mspabi_srli_3               
+0000c90e  __mspabi_srli_2               
+0000c912  __mspabi_srli_1               
+0000c918  initSPI                       
+0000c95e  scheduler                     
+0000c9a4  updateOnTheta                 
+0000c9e8  __TI_auto_init_nobinit_nopinit
+0000ca2a  initADC                       
+0000ca58  initUART                      
+0000ca86  _Q15umpy                      
+0000cab2  __mspabi_srai                 
+0000cabe  __mspabi_srai_15              
+0000cac0  __mspabi_srai_14              
+0000cac2  __mspabi_srai_13              
+0000cac4  __mspabi_srai_12              
+0000cac6  __mspabi_srai_11              
+0000cac8  __mspabi_srai_10              
+0000caca  __mspabi_srai_9               
+0000cacc  __mspabi_srai_8               
+0000cace  __mspabi_srai_7               
+0000cad0  __mspabi_srai_6               
+0000cad2  __mspabi_srai_5               
+0000cad4  __mspabi_srai_4               
+0000cad6  __mspabi_srai_3               
+0000cad8  __mspabi_srai_2               
+0000cada  __mspabi_srai_1               
+0000cade  __mspabi_slli                 
+0000caea  __mspabi_slli_15              
+0000caec  __mspabi_slli_14              
+0000caee  __mspabi_slli_13              
+0000caf0  __mspabi_slli_12              
+0000caf2  __mspabi_slli_11              
+0000caf4  __mspabi_slli_10              
+0000caf6  __mspabi_slli_9               
+0000caf8  __mspabi_slli_8               
+0000cafa  __mspabi_slli_7               
+0000cafc  __mspabi_slli_6               
+0000cafe  __mspabi_slli_5               
+0000cb00  __mspabi_slli_4               
+0000cb02  __mspabi_slli_3               
+0000cb04  __mspabi_slli_2               
+0000cb06  __mspabi_slli_1               
+0000cb0a  onButtonPress                 
+0000cb34  __mspabi_mpyl                 
+0000cb34  __mspabi_mpyl_sw              
+0000cb5a  _c_int00_noargs               
+0000cb76  initButton                    
+0000cb90  puts                          
+0000cbaa  initTimer                     
+0000cbc2  UARTtoADC                     
+0000cbd6  __TI_zero_init_nomemset       
+0000cbea  send                          
+0000cbfe  ADCtoUART                     
+0000cc10  __TI_decompress_none          
+0000cc22  memcpy                        
+0000cc34  readADC                       
+0000cc46  __mspabi_func_epilog_7        
+0000cc48  __mspabi_func_epilog_6        
+0000cc4a  __mspabi_func_epilog_5        
+0000cc4c  __mspabi_func_epilog_4        
+0000cc4e  __mspabi_func_epilog_3        
+0000cc50  __mspabi_func_epilog_2        
+0000cc52  __mspabi_func_epilog_1        
+0000cc56  USCI0RX_ISR                   
+0000cc60  sysTick                       
+0000cc6a  __TI_ISR_TRAP                 
+0000cc72  C$$EXIT                       
+0000cc72  abort                         
+0000cc78  _system_pre_init              
+0000cc7c  _system_post_cinit            
+0000cc7e  _Q16div_coeffs                
+0000cd7e  _Q16sqrt_coeffs               
+0000ce3e  _Q16atanPU_coeffs             
+0000cfe8  __TI_Handler_Table_Base       
+0000cfee  __TI_Handler_Table_Limit      
+0000cff2  __TI_CINIT_Base               
+0000cffa  __TI_CINIT_Limit              
 0000ffe0  __TI_int00                    
 0000ffe4  __TI_int02                    
 0000ffe6  __TI_int03                    
@@ -745,4 +745,4 @@ ffffffff  __TI_prof_data_size
 ffffffff  __TI_prof_data_start          
 ffffffff  __c_args__                    
 
-[236 symbols]
+[235 symbols]

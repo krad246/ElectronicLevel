@@ -66,10 +66,10 @@ _q15 x0, y0, z0;
 
 // Phase of calibration and min / max data
 static uint8_t calibState = 0;
-static uint16_t calibVals[6] = { 0 };
+static _q15 calibVals[6] = { 0 };
 
 // Samples array for ADC
-extern int16_t samples[3];
+extern _q15 arr[3];
 
 // Button callback
 inline void outputFunction(void) {
@@ -80,11 +80,11 @@ inline void outputFunction(void) {
 	if (calibState < 6) {
 		// Set the appropriate value in the array
 		if (calibState < 2) {
-			calibVals[calibState] = samples[2];
+			calibVals[calibState] = arr[2];
 		} else if (calibState < 4) {
-			calibVals[calibState] = samples[1];
+			calibVals[calibState] = arr[1];
 		} else {
-			calibVals[calibState] = samples[0];
+			calibVals[calibState] = arr[0];
 		}
 
 		// Status update

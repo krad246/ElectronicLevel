@@ -19,10 +19,10 @@ inline void processData(void) {
 
 	uint8_t i;
 	for (i = 0; i < 3; i++) {
-		// Calculate alpha * s[i]
+		// Calculate alpha * s[i] = Q0.14 since both numbers are positive
 		volatile _q15 p1 = _Q15mpy(alpha, samples[2 - i]);
 
-		// Calculate (1 - alpha) * y[n - 1]
+		// Calculate (1 - alpha) * y[n - 1] = Q0.14 by recursion
 		volatile _q15 p2 = _Q15mpy(mAlpha, arr[i]);
 
 		// Sum the two responses
@@ -32,7 +32,7 @@ inline void processData(void) {
 
 // Calculate the angle of the device in fixed point
 extern _q15 x0, y0, z0;
-_q11 theta, phi;
+_q15 theta, phi;
 inline void getAngles(void) {
 	// Calculate vector displacement
 	const volatile _q15 dx = arr[0] - x0;
