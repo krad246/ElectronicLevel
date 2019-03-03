@@ -7,6 +7,6 @@
 #define THRESHOLD 50
 
 void initButton(void);
-extern inline void outputFunction(void);
+extern void buttonCallback(void);
 
 #endif /* BUTTON_H_ */

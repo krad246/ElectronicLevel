@@ -17,7 +17,7 @@ void initADC(void) {
 	ADC10AE0 = BIT0;
 
 	// Turn on the device and enable it
-	ADC10CTL0 = MSC | ADC10ON | ENC;
+	ADC10CTL0 = MSC | ADC10ON | ENC | ADC10IE;
 }
 
 inline void UARTtoADC(void) {
@@ -33,10 +33,20 @@ inline void UARTtoADC(void) {
 // Samples array for ADC
 _q15 samples[3] = { 0 };
 inline void readADC(void) {
-	// Wait for unfinished transfers
-	while (ADC10CTL1 & ADC10BUSY);
-
 	// Provide the ADC the pointer to the array and start conversion
 	ADC10SA = (unsigned int) samples;
 	ADC10CTL0 |= ADC10SC;
+}
+
+// Data processing task
+extern void filter(void);
+
+// Computing angles task
+extern void getOrientation(void);
+
+// After a read is performed successfully, do the math
+#pragma vector = ADC10_VECTOR
+interrupt void onRead(void) {
+	filter();
+	getOrientation();
 }

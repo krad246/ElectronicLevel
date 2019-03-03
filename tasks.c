@@ -3,11 +3,8 @@
 // List of tasks to run
 proc tasks[NUM_TASKS];
 
-// Data processing task
-extern void processData(void);
-
-// Computing angles task
-extern void getAngles(void);
+// ADC read task
+extern void readADC(void);
 
 // System timer
 uint32_t tick = 0;
@@ -57,10 +54,8 @@ void taskSetup(void) {
 	registerTask(sysTick, 0, 1000);
 	registerTask(printReadings, 1, 1000);
 
-	registerTask(processData, 2, 20);
-	registerTask(getAngles, 3, 20);
-	registerTask(updateOnTheta, 4, 20);
-	registerTask(display, 5, 20);
+	registerTask(readADC, 2, 10);
+	registerTask(display, 3, 20);
 }
 
 // Initializes a task in the proc table

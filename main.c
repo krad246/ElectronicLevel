@@ -72,7 +72,8 @@ static _q15 calibVals[6] = { 0 };
 extern _q15 arr[3];
 
 // Button callback
-inline void outputFunction(void) {
+#pragma FUNC_ALWAYS_INLINE(buttonCallback)
+inline void buttonCallback(void) {
 	// If calibration is done, return
 	if (calibState > 6) return;
 

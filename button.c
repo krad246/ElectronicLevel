@@ -63,7 +63,7 @@ interrupt void debouncer(void) {
 		being held; if so, perform the output
 		function */
 		if (state == 0) {
-			outputFunction();
+			buttonCallback();
 		}
 
 		// Stop and clear the watchdog timer

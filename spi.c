@@ -18,6 +18,9 @@ void initSPI() {
 	// Default initialize the transmit buffer
 	UCB0TXBUF = 0;
 
+	// Enable interrupts
+	IE2 |= UCB0TXIE;
+
 	// Set pin 5 to output and enable SPI pin functionality
 	P1DIR |= BIT5;
 	P1SEL |= BIT5;
@@ -36,8 +39,11 @@ void initSPI() {
 inline void send(uint8_t byteValue) {
 	// Set the TX buffer and wait for the transaction to complete
 	UCB0TXBUF = byteValue;
-	while (UCB0STAT & UCBUSY);
+}
 
+#pragma vector = USCIAB0TX_VECTOR
+interrupt void latch(void) {
+	// Latch the LED state
 	P2OUT |= BIT0;
 	P2OUT &= ~BIT0;
 }

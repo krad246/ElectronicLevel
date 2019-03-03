@@ -76,7 +76,8 @@ void sendByte(unsigned char byte)
 #pragma vector = USCIAB0RX_VECTOR
 interrupt void USCI0RX_ISR(void)
 {
-	char r = UCA0RXBUF;					// Get the received character
+	// Get the received character
+	char r = UCA0RXBUF;
 }
 
 

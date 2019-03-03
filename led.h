@@ -15,25 +15,12 @@ typedef enum directions {
 	northwest = 0
 } directions;
 
-typedef enum orientations {
-	faceN,
-	faceNNE,
-	faceE,
-	faceSE,
-	faceS,
-	faceSW,
-	faceW,
-	faceNW
-} orientations;
-
 typedef struct led {
 	uint16_t period;
 	uint16_t duty;
 	uint16_t ticks;
 	uint8_t active;
 } led;
-
-led array[8];
 
 void initLEDs(void);
 void setHeading(directions dir);

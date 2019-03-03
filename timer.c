@@ -20,17 +20,18 @@ extern proc tasks[NUM_TASKS];
 #pragma vector = TIMER1_A0_VECTOR
 interrupt void scheduler(void) {
 	// Loop through the task list
-	uint8_t i;
-	for (i = 0; i < NUM_TASKS; i++) {
+	int8_t i;
+	proc *p = tasks;
+	for (i = NUM_TASKS; i >= 0; i--) {
 		// Increment each software timer
-		tasks[i].timer++;
+		p->timer++;
 
 		// Check if it is time to run the function
-		if (tasks[i].timer > tasks[i].freq) {
+		if (p->timer > p->freq) {
 			// If so, run the function and reset the counter
-			task t = tasks[i].t;
+			const task t = p->t;
 			if (t) t();
-			tasks[i].timer = 0;
+			p->timer = 0;
 		}
 	}
 }

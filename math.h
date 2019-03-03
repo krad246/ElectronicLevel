@@ -3,7 +3,7 @@
 
 #include <dependencies.h>
 
-void processData(void);
-void getAngles(void);
+void filter(void);
+void getOrientation(void);
 
 #endif /* MATH_H_ */
