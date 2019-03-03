@@ -4,7 +4,6 @@ led array[8];
 
 // Configures LED pins
 void initLEDs() {
-
 	P1DIR |= BIT4;
 	P1OUT |= BIT4;
 	P1OUT &= ~BIT4;
@@ -49,7 +48,7 @@ inline void setHeading(directions dir) {
 }
 
 // Updates the duty cycle of the LED cluster
-inline void updateDuty(void) {
+inline void updateTicks(void) {
 	// Iterate through all lights in the table
 	int8_t i;
 
@@ -63,6 +62,7 @@ inline void updateDuty(void) {
 			// If enough time has passed in the PWM cycle, turn off the LED
 			if (l->ticks > l->duty) {
 				l->ticks = 0;
+				l->active = 0;
 			} else {
 				// Else leave it on and keep waiting
 				l->ticks++;

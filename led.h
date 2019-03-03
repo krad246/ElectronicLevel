@@ -24,7 +24,7 @@ typedef struct led {
 
 void initLEDs(void);
 void setHeading(directions dir);
-void updateDuty(void);
+void updateTicks(void);
 void display(void);
 
 #endif
