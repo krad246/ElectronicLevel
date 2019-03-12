@@ -20,8 +20,8 @@ void initUART(void) {
 	UCA0CTL1 |= UCSSEL_3;
 
 	// Set the baud rate to 9600
-	UCA0BR0 = 0x68;
-	UCA0BR1 = 0x00;
+	UCA0BR0 = 0x41;
+	UCA0BR1 = 0x03;
 
 	// Use modulation type 3
 	UCA0MCTL = UCBRS0;

@@ -27,7 +27,7 @@ interrupt void scheduler(void) {
 		p->timer++;
 
 		// Check if it is time to run the function
-		if (p->timer > p->freq) {
+		if (p->timer >= p->freq) {
 			// If so, run the function and reset the counter
 			const task t = p->t;
 			if (t) t();

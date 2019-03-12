@@ -130,17 +130,17 @@ inline void buttonCallback(void) {
 
 		// Add all of the display tasks
 		// Add the system print
-		registerTask(printReadings, 8000);
+		registerTask(printReadings, 1000);
 
 		// Add the angle calculations
-		registerTask(getOrientation, 50);
+		registerTask(getOrientation, 4);
 
 		// Add the update functions
-		registerTask(updateOnTheta, 60);
-		registerTask(updateOnPhi, 65);
-		registerTask(updateTicks, 80);
+		registerTask(updateOnTheta, 8);
+		registerTask(updateOnPhi, 8);
+		registerTask(updateTicks, 1);
 
 		// Add the visual display function
-		registerTask(display, 80);
+		registerTask(display, 10);
 	}
 }

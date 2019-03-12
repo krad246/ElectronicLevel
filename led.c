@@ -16,7 +16,7 @@ void initLEDs() {
 	int8_t i;
 	led *l = array;
 	for (i = 7; i >= 0; i--) {
-		*l = (led) { 80, 80, 0, 0 };
+		*l = (led) { 10, 10, 0, 0 };
 		l++;
 	}
 }
@@ -73,20 +73,20 @@ inline void updateTicks(void) {
 
 	// Loop through the entries
 	for (i = 7; i >= 0; i--) {
+        // Update the tick counter
+	    l->ticks++;
+
 		// If it is active, then parse its current state
 		if (l->active) {
 			// If enough time has passed in the PWM cycle, turn off the LED
-			if (l->ticks > l->duty) {
+			if (l->ticks >= l->duty) {
 				l->active = 0;
-			} else {
-				// Else leave it on and keep waiting
-				l->ticks++;
 			}
 		}
 
 		// Start a new cycle once we're overdue
 		// Also change the duty for the next refresh period
-		if (l->ticks > l->period) {
+		if (l->ticks >= l->period) {
 			l->ticks = 0;
 			l->duty = duty;
 		}
@@ -128,10 +128,10 @@ static const _q15 orientations[15] = {
 };
 
 static const uint8_t duties[14] = {
-        60, 45, 30, 30,
-        45, 60, 80, 80,
-        60, 45, 30, 30,
-        45, 60
+        8, 5, 3, 3,
+        5, 8, 10, 10,
+        8, 5, 3, 3,
+        5, 8
 };
 
 static const uint8_t fans[14] = {
