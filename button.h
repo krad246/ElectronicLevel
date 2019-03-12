@@ -4,7 +4,7 @@
 #include <dependencies.h>
 
 // Number of unit delays to debounce for
-#define THRESHOLD 50
+#define THRESHOLD 100
 
 void initButton(void);
 

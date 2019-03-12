@@ -84,11 +84,12 @@ inline void updateTicks(void) {
 			}
 
 	        // Start a new cycle once we're overdue
-	        // Also change the duty for the next refresh period
 	        if (l->ticks >= l->period) {
 	            l->ticks = 0;
-	            l->duty = duty;
 	        }
+
+	        // Also change the duty for the next refresh period
+	        l->duty = duty;
 		}
 		// Move to the next entry
 		l++;

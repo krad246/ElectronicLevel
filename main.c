@@ -88,6 +88,8 @@ extern _q15 arr[3];
 
 // Button callback
 inline void buttonCallback(void) {
+    if (calibState > 6) return;
+
 	// If in the middle of calibrating
 	if (calibState < 6) {
 		// Set the appropriate value in the array
@@ -104,7 +106,7 @@ inline void buttonCallback(void) {
 		print("\r\n");
 
 		// Move to next phase
-		calibState++;
+	    calibState++;
 		send(calibrationDirections[calibState]);
 	}
 
@@ -123,10 +125,6 @@ inline void buttonCallback(void) {
 		print("-------\r\n");
 
 		print("Starting application...\r\n");
-
-		// Permanently disable the button
-		P1IFG &= ~BIT3;
-		P1IE &= ~BIT3;
 
 		// Add all of the display tasks
 		// Add the system print
