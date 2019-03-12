@@ -73,24 +73,23 @@ inline void updateTicks(void) {
 
 	// Loop through the entries
 	for (i = 7; i >= 0; i--) {
-        // Update the tick counter
-	    l->ticks++;
-
 		// If it is active, then parse its current state
 		if (l->active) {
+		    // Update the tick counter
+		    l->ticks++;
+
 			// If enough time has passed in the PWM cycle, turn off the LED
 			if (l->ticks >= l->duty) {
 				l->active = 0;
 			}
-		}
 
-		// Start a new cycle once we're overdue
-		// Also change the duty for the next refresh period
-		if (l->ticks >= l->period) {
-			l->ticks = 0;
-			l->duty = duty;
+	        // Start a new cycle once we're overdue
+	        // Also change the duty for the next refresh period
+	        if (l->ticks >= l->period) {
+	            l->ticks = 0;
+	            l->duty = duty;
+	        }
 		}
-
 		// Move to the next entry
 		l++;
 	}
@@ -143,7 +142,8 @@ static const uint8_t duties[14] = {
 };
 
 static const uint8_t fans[14] = {
-        4, 3, 3, 2, 2, 1, 1, 2, 2, 3, 3, 4
+//        4, 3, 3, 2, 2, 1, 1, 2, 2, 3, 3, 4
+                                 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 };
 
 // Function to update the heading of the LED ring

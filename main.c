@@ -141,6 +141,6 @@ inline void buttonCallback(void) {
 		registerTask(updateTicks, 1);
 
 		// Add the visual display function
-		registerTask(display, 10);
+		registerTask(display, 1);
 	}
 }
