@@ -31,6 +31,9 @@ int main(void) {
 	// Initialize the LEDs
 	initLEDs();
 
+	// Set the default value for the LED
+	send(1 << north);
+
 	// Initialize the SPI for LED matrix
 	initSPI();
 
@@ -70,15 +73,18 @@ _q15 x0, y0, z0;
 // Phase of calibration and min / max data
 static uint8_t calibState = 0;
 static _q15 calibVals[6] = { 0 };
+static directions calibrationDirections[7] = {
+	1 << north, 1 << south, 
+	1 << west, 1 << east, 
+	1 << north | 1 << south | 1 << east | 1 << west,
+	1 << northeast | 1 << southeast | 1 << northwest | 1 << southwest, 0
+};
 
 // Samples array for ADC
 extern _q15 arr[3];
 
 // Button callback
 inline void buttonCallback(void) {
-	// If calibration is done, return
-	if (calibState > 6) return;
-
 	// If in the middle of calibrating
 	if (calibState < 6) {
 		// Set the appropriate value in the array
@@ -96,6 +102,7 @@ inline void buttonCallback(void) {
 
 		// Move to next phase
 		calibState++;
+		send(calibrationDirections[calibState]);
 	}
 
 	// When calibration is done
@@ -114,7 +121,23 @@ inline void buttonCallback(void) {
 
 		print("Starting application...\r\n");
 
-		// Move to next state
-		calibState++;
+		// Permanently disable the button
+		P1IFG &= ~BIT3;
+		P1IE &= ~BIT3;
+
+		// Add all of the display tasks
+		// Add the system print
+		registerTask(printReadings, 8000);
+
+		// Add the angle calculations
+		registerTask(getOrientation, 50);
+
+		// Add the update functions
+		registerTask(updateOnTheta, 60);
+		registerTask(updateOnPhi, 65);
+		registerTask(updateTicks, 80);
+
+		// Add the visual display function
+		registerTask(display, 80);
 	}
 }

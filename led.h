@@ -26,8 +26,8 @@ void initLEDs(void);
 
 inline void updateOnTheta(void);
 inline void updateOnPhi(void);
-extern inline void setHeading(void);
-extern inline void updateTicks(void);
-extern inline void display(void);
+inline void setHeading(void);
+inline void updateTicks(void);
+inline void display(void);
 
 #endif

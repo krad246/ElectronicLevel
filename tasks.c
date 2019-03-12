@@ -61,17 +61,7 @@ extern inline void display(void);
 // Function to set up tasks
 void taskSetup(void) {
 	registerTask(sysTick, 8000);
-	registerTask(printReadings, 8000);
-
 	registerTask(readADC, 16);
-
-	registerTask(getOrientation, 50);
-
-	registerTask(updateOnTheta, 60);
-	registerTask(updateOnPhi, 65);
-	registerTask(updateTicks, 80);
-
-	registerTask(display, 80);
 }
 
 // Initializes a task in the proc table
