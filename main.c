@@ -31,11 +31,11 @@ int main(void) {
 	// Initialize the LEDs
 	initLEDs();
 
-	// Set the default value for the LED
-	send(1 << north);
-
 	// Initialize the SPI for LED matrix
 	initSPI();
+
+    // Set the default value for the LED
+    send(128);
 
 	// Begin calibration
 	print("\n\r");
@@ -73,12 +73,15 @@ _q15 x0, y0, z0;
 // Phase of calibration and min / max data
 static uint8_t calibState = 0;
 static _q15 calibVals[6] = { 0 };
-static directions calibrationDirections[7] = {
-	1 << north, 1 << south, 
-	1 << west, 1 << east, 
-	1 << north | 1 << south | 1 << east | 1 << west,
-	1 << northeast | 1 << southeast | 1 << northwest | 1 << southwest, 0
+static uint8_t calibrationDirections[7] = {
+	128, 8,
+	2, 32,
+	128 | 8 | 2 | 32,
+	16 | 64 | 4 | 1,
+	0
 };
+
+extern inline void printReadings(void);
 
 // Samples array for ADC
 extern _q15 arr[3];

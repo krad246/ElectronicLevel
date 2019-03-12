@@ -27,8 +27,8 @@ static uint8_t offset;
 // Sets heading of LED array so that 3 are illuminated
 inline void setHeading(void) {
 	// Given a 'center', calculate the left and right offset
-	volatile const uint8_t leftVal = dirTheta - offset;
-	volatile const uint8_t rightVal = dirTheta + offset;
+	volatile const int8_t leftVal = dirTheta - offset;
+	volatile const int8_t rightVal = dirTheta + offset;
 	volatile const directions left = (directions) ((leftVal + 8) & 7);
 	volatile const directions right = (directions) ((rightVal + 8) & 7);
 
@@ -97,7 +97,7 @@ inline void updateTicks(void) {
 }
 
 // List of directions on LED ring except for the point of wrapping
-static const directions mapping[7] = {
+static const volatile directions mapping[7] = {
 	southeast,
 	east,
 	northeast,
@@ -108,7 +108,7 @@ static const directions mapping[7] = {
 };
 
 // Adjacent entries correspond to a direction
-static const _q15 slices[8] = {
+static const volatile _q15 slices[8] = {
 		_Q15(-0.4375),
 		_Q15(-0.3125),
 		_Q15(-0.1875),
@@ -128,18 +128,17 @@ static const _q15 orientations[15] = {
 };
 
 static const uint8_t duties[14] = {
-		75, 55, 40, 40,
-		55, 75, 80, 80,
-		75, 55, 40, 40,
-		55, 75
-
+        60, 45, 30, 30,
+        45, 60, 80, 80,
+        60, 45, 30, 30,
+        45, 60
 };
 
 static const uint8_t fans[14] = {
-		2, 3, 4, 4,
-		3, 2, 1, 1,
-		2, 3, 4, 4,
-		3, 2
+         2, 3, 4, 4,
+         3, 2, 1, 1,
+         2, 3, 4, 4,
+         3, 2
 };
 
 // Function to update the heading of the LED ring
@@ -161,7 +160,7 @@ inline void updateOnTheta(void) {
 
 		// If theta lies within this range, set the heading and break
 		if (theta > boundaryBot && theta < boundaryTop) {
-			dirTheta = mapping[7u - (i + 1)];
+			dirTheta = mapping[7u - (i + 1u)];
 			break;
 		}
 	}
@@ -176,9 +175,9 @@ inline void updateOnPhi(void) {
 	}
 
 	int8_t i;
-	for (i = 13; i >= 0; i--) {
-		const _q15 boundaryTop = orientations[13u - i];
-		const _q15 boundaryBot = orientations[13u - (i + 1u)];
+	for (i = 12; i >= 0; i--) {
+		volatile const _q15 boundaryTop = orientations[13u - i];
+		volatile const _q15 boundaryBot = orientations[13u - (i + 1u)];
 
 		if (phi > boundaryBot && phi < boundaryTop) {
 			duty = duties[13u - (i + 1u)];

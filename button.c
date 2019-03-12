@@ -43,6 +43,8 @@ interrupt void onButtonPress(void) {
 	WDTCTL = WDT_MDLY_0_5;
 }
 
+extern inline void buttonCallback(void);
+
 // ISR for the debouncing
 #pragma vector = WDT_VECTOR
 interrupt void debouncer(void) {
