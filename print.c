@@ -8,13 +8,13 @@
 #include "print.h"
 
 // Initializes UART
-inline void initUART(void) {
+void initUART(void) {
 	// Reset the UART
 	UCA0CTL1 |= UCSWRST;
 
 	// Set the pin functionality to UART
-	P1SEL = BIT1 | BIT2;
-	P1SEL2 = BIT1 | BIT2;
+	P1SEL |= BIT1 | BIT2;
+	P1SEL2 |= BIT1 | BIT2;
 
 	// Use the SMCLK
 	UCA0CTL1 |= UCSSEL_3;
@@ -169,6 +169,6 @@ inline void ADCtoUART(void) {
 	ADC10AE0 = 0x00;
 
 	// Reset pin mode to UART
-	P1SEL = BIT1 | BIT2;				// P1.1 = RXD, P1.2=TXD
-	P1SEL2 = BIT1 | BIT2;				// P1.1 = RXD, P1.2=TXD
+	P1SEL |= BIT1 | BIT2;
+	P1SEL2 |= BIT1 | BIT2;
 }

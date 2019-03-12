@@ -3,7 +3,7 @@
 
 #include <dependencies.h>
 
-void filter(void);
-void getOrientation(void);
+inline void filter(void);
+inline void getOrientation(void);
 
 #endif /* MATH_H_ */

@@ -3,7 +3,7 @@
 
 #include <dependencies.h>
 
-#define NUM_TASKS 4
+#define NUM_TASKS 10
 
 typedef void (*task)(void);
 
@@ -14,6 +14,6 @@ typedef struct proc {
 } proc;
 
 void taskSetup(void);
-void registerTask(task t, uint8_t pid, uint16_t freq);
+void registerTask(task t, uint16_t freq);
 
 #endif /* TASKS_H_ */

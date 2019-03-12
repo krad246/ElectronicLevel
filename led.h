@@ -23,8 +23,11 @@ typedef struct led {
 } led;
 
 void initLEDs(void);
-void setHeading(directions dir);
-void updateTicks(void);
-void display(void);
+
+inline void updateOnTheta(void);
+inline void updateOnPhi(void);
+extern inline void setHeading(directions dir);
+extern inline void updateTicks(void);
+extern inline void display(void);
 
 #endif

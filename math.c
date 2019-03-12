@@ -7,7 +7,6 @@ extern _q15 samples[3];
 _q15 arr[3] = { 0 };
 
 // EMA filter implementation in fixed point
-#pragma FUNC_ALWAYS_INLINE(filter)
 inline void filter(void) {
 	// Q0.15 alpha and 1 - alpha
 	const volatile _q15 alpha = _Q15(0.0625);
@@ -29,7 +28,6 @@ inline void filter(void) {
 // Calculate the angle of the device in fixed point
 extern _q15 x0, y0, z0;
 _q15 theta, phi;
-#pragma FUNC_ALWAYS_INLINE(getOrientation)
 inline void getOrientation(void) {
 	// Calculate vector displacement
 	const volatile _q15 dx = arr[0] - x0;

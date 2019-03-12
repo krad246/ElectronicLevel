@@ -19,7 +19,7 @@ void initSPI() {
 	UCB0TXBUF = 0;
 
 	// Enable interrupts
-	IE2 |= UCB0TXIE;
+//	IE2 |= UCB0TXIE;
 
 	// Set pin 5 to output and enable SPI pin functionality
 	P1DIR |= BIT5;
@@ -39,11 +39,18 @@ void initSPI() {
 inline void send(uint8_t byteValue) {
 	// Set the TX buffer and wait for the transaction to complete
 	UCB0TXBUF = byteValue;
-}
 
-#pragma vector = USCIAB0TX_VECTOR
-interrupt void latch(void) {
+	// Wait until it is clear
+	while (UCB0STAT & UCBUSY);
+
 	// Latch the LED state
 	P2OUT |= BIT0;
 	P2OUT &= ~BIT0;
 }
+
+//#pragma vector = USCIAB0TX_VECTOR
+//interrupt void latch(void) {
+//	// Latch the LED state
+//	P2OUT |= BIT0;
+//	P2OUT &= ~BIT0;
+//}

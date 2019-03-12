@@ -12,9 +12,9 @@ void initPorts(void);
 int main(void) {
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
 
-	// Set to 1 MHz clock
-	DCOCTL = CALDCO_1MHZ;
-	BCSCTL1 = CALBC1_1MHZ;
+	// Set to 8 MHz clock
+	DCOCTL = CALDCO_8MHZ;
+	BCSCTL1 = CALBC1_8MHZ;
 
 	// Initialize unused ports
 	initPorts();
@@ -27,6 +27,9 @@ int main(void) {
 
 	// Initialize the UART for printing
 	initUART();
+
+	// Initialize the LEDs
+	initLEDs();
 
 	// Initialize the SPI for LED matrix
 	initSPI();
@@ -72,7 +75,6 @@ static _q15 calibVals[6] = { 0 };
 extern _q15 arr[3];
 
 // Button callback
-#pragma FUNC_ALWAYS_INLINE(buttonCallback)
 inline void buttonCallback(void) {
 	// If calibration is done, return
 	if (calibState > 6) return;
@@ -81,11 +83,11 @@ inline void buttonCallback(void) {
 	if (calibState < 6) {
 		// Set the appropriate value in the array
 		if (calibState < 2) {
-			calibVals[calibState] = arr[2];
+			calibVals[calibState] = arr[0];
 		} else if (calibState < 4) {
 			calibVals[calibState] = arr[1];
 		} else {
-			calibVals[calibState] = arr[0];
+			calibVals[calibState] = arr[2];
 		}
 
 		// Status update

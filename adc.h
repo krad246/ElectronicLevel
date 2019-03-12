@@ -4,7 +4,7 @@
 #include <dependencies.h>
 
 void initADC(void);
-void UARTtoADC(void);
-void readADC(void);
+inline void UARTtoADC(void);
+inline void readADC(void);
 
 #endif /* ADC_H_ */

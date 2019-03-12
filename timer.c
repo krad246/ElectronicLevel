@@ -6,7 +6,7 @@ void initTimer(void) {
 	TA1CTL = MC_0 | TACLR;
 
 	// Set it to 1 ms period
-	TA1CCR0 = 1000;
+	TA1CCR0 = 7999;
 
 	// Enable interrupts and start the timer
 	TA1CCTL0 = CCIE;
@@ -22,7 +22,7 @@ interrupt void scheduler(void) {
 	// Loop through the task list
 	int8_t i;
 	proc *p = tasks;
-	for (i = NUM_TASKS; i >= 0; i--) {
+	for (i = NUM_TASKS - 1; i >= 0; i--) {
 		// Increment each software timer
 		p->timer++;
 
@@ -33,5 +33,8 @@ interrupt void scheduler(void) {
 			if (t) t();
 			p->timer = 0;
 		}
+
+		// Move to the next task
+		p++;
 	}
 }

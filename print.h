@@ -9,6 +9,6 @@ void sendByte(unsigned char byte);
 void print(char *format, ...);
 
 void initUART(void);
-void ADCtoUART(void);
+inline void ADCtoUART(void);
 
 #endif /* PRINT_H_ */

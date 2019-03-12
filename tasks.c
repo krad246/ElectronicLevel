@@ -2,9 +2,13 @@
 
 // List of tasks to run
 proc tasks[NUM_TASKS];
+uint8_t pid = 0;
 
 // ADC read task
-extern void readADC(void);
+extern inline void readADC(void);
+
+// Angle computation task
+extern inline void getOrientation(void);
 
 // System timer
 uint32_t tick = 0;
@@ -16,8 +20,8 @@ inline void sysTick(void) {
 extern _q15 arr[3];
 
 // Print function and pin change functions
-extern void UARTtoADC();
-extern void ADCtoUART();
+extern inline void UARTtoADC();
+extern inline void ADCtoUART();
 extern void print(char *format, ...);
 
 // Basis vectors for logging
@@ -46,19 +50,29 @@ inline void printReadings(void) {
 	UARTtoADC();
 }
 
-extern void updateOnTheta(void);
-extern void display(void);
+extern inline void updateOnTheta(void);
+extern inline void updateOnPhi(void);
+extern inline void updateTicks(void);
+extern inline void display(void);
 
 // Function to set up tasks
 void taskSetup(void) {
-	registerTask(sysTick, 0, 1000);
-	registerTask(printReadings, 1, 1000);
+	registerTask(sysTick, 8000);
+	registerTask(printReadings, 8000);
 
-	registerTask(readADC, 2, 10);
-	registerTask(display, 3, 20);
+	registerTask(readADC, 16);
+
+	registerTask(getOrientation, 50);
+
+	registerTask(updateOnTheta, 60);
+	registerTask(updateOnPhi, 65);
+	registerTask(updateTicks, 80);
+
+	registerTask(display, 80);
 }
 
 // Initializes a task in the proc table
-void registerTask(task t, uint8_t pid, uint16_t freq) {
+void registerTask(task t, uint16_t freq) {
 	tasks[pid] = (proc) { t, 0, freq };
+	pid++;
 }

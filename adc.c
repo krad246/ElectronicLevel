@@ -22,9 +22,9 @@ void initADC(void) {
 
 inline void UARTtoADC(void) {
 	// Switch to GPIO mode
-	P1DIR = 0x00;
-	P1SEL = 0x00;
-	P1SEL2 = 0x00;
+	P1DIR &= ~(BIT1 | BIT2);
+	P1SEL &= ~(BIT1 | BIT2);
+	P1SEL2 &= ~(BIT1 | BIT2);
 
 	// Enable analog channel input
 	ADC10AE0 = BIT1 | BIT2;
@@ -39,14 +39,10 @@ inline void readADC(void) {
 }
 
 // Data processing task
-extern void filter(void);
-
-// Computing angles task
-extern void getOrientation(void);
+extern inline void filter(void);
 
 // After a read is performed successfully, do the math
 #pragma vector = ADC10_VECTOR
 interrupt void onRead(void) {
 	filter();
-	getOrientation();
 }
