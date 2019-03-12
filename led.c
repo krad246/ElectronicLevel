@@ -121,24 +121,29 @@ static const volatile _q15 slices[8] = {
 
 // Possible phi directions
 static const _q15 orientations[15] = {
-		_Q15(-0.4375), _Q15(-0.375), _Q15(-0.3125), _Q15(-0.25),
-		_Q15(-0.1875), _Q15(-0.125), _Q15(-0.0625), _Q15(0),
-		_Q15(0.0625), _Q15(0.125), _Q15(0.1875), _Q15(0.25),
-		_Q15(0.3125), _Q15(0.375), _Q15(0.4375)
+        _Q15(-0.125),
+        _Q15(-0.09375),
+        _Q15(-0.078125),
+        _Q15(-0.0625),
+        _Q15(-0.046875),
+        _Q15(-0.03125),
+        _Q15(-0.015625),
+        _Q15(0),
+        _Q15(0.015625),
+        _Q15(0.03125),
+        _Q15(0.046875),
+        _Q15(0.0625),
+        _Q15(0.078125),
+        _Q15(0.09375),
+        _Q15(0.125)
 };
 
 static const uint8_t duties[14] = {
-        8, 5, 3, 3,
-        5, 8, 10, 10,
-        8, 5, 3, 3,
-        5, 8
+        10, 9, 8, 7, 6, 5, 4, 4, 5, 6, 7, 8, 9, 10
 };
 
 static const uint8_t fans[14] = {
-         2, 3, 4, 4,
-         3, 2, 1, 1,
-         2, 3, 4, 4,
-         3, 2
+        4, 3, 3, 2, 2, 1, 1, 2, 2, 3, 3, 4
 };
 
 // Function to update the heading of the LED ring
@@ -167,13 +172,6 @@ inline void updateOnTheta(void) {
 }
 
 inline void updateOnPhi(void) {
-	// If the angle phi is less than -165 degrees or greater than 165 degrees it's south
-	// Set the direction and leave; we're done
-	if (phi < orientations[0] || phi > orientations[14]) {
-		duty = 80;
-		return;
-	}
-
 	int8_t i;
 	for (i = 13; i >= 0; i--) {
 		volatile const _q15 boundaryTop = orientations[14u - i];
