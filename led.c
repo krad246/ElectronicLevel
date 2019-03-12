@@ -8,9 +8,11 @@ void initLEDs() {
 	P1OUT |= BIT4;
 	P1OUT &= ~BIT4;
 
+	// Set up the latch pin
 	P2DIR |= BIT0;
 	P2OUT &= ~BIT0;
 
+	// Initialize the LED structs
 	int8_t i;
 	led *l = array;
 	for (i = 7; i >= 0; i--) {
@@ -19,13 +21,16 @@ void initLEDs() {
 	}
 }
 
+static directions dirTheta;
 static uint8_t offset;
 
 // Sets heading of LED array so that 3 are illuminated
-inline void setHeading(directions dir) {
-	// Given a 'center', calculate the left and right offsets
-	const directions left = (directions) ((dir - offset + 8) & 7);
-	const directions right = (directions) ((dir + offset + 8) & 7);
+inline void setHeading(void) {
+	// Given a 'center', calculate the left and right offset
+	volatile const uint8_t leftVal = dirTheta - offset;
+	volatile const uint8_t rightVal = dirTheta + offset;
+	volatile const directions left = (directions) ((leftVal + 8) & 7);
+	volatile const directions right = (directions) ((rightVal + 8) & 7);
 
 	int8_t i;
 	led *l;
@@ -42,22 +47,21 @@ inline void setHeading(directions dir) {
 		}
 	} else {
 		// Otherwise use modular indexing to access and set the correct LEDs
-
-		// Set all of the LEDs covered by the fan to active
-		for (i = right; i >= left; i = (i + 7) & 7) {
-			l = array + i;
-			l->active = 1;
+		// Set all of the LEDs covered by the fan to active and all others to disabled
+		l = array;
+		for (i = 7; i >= 0; i--) {
+			l->active = 0;
+			l++;
 		}
 
-		// Disable all others
-		for (i = left - 1; i >= right + 1; i = (i + 7) & 7) {
-			l = array + i;
-			l->active = 0;
+		for (i = rightVal; i >= leftVal; i--) {
+			l = array + (i & 7);
+			l->active = 1;
 		}
 	}
 }
 
-static uint8_t duty;
+static volatile uint8_t duty;
 
 // Updates the duty cycle of the LED cluster
 inline void updateTicks(void) {
@@ -105,74 +109,38 @@ static const directions mapping[7] = {
 
 // Adjacent entries correspond to a direction
 static const _q15 slices[8] = {
-		_Q15(-0.875),
-		_Q15(-0.625),
-		_Q15(-0.375),
-		_Q15(-0.125),
-		_Q15(0.125),
-		_Q15(0.375),
-		_Q15(0.625),
-		_Q15(0.875)
+		_Q15(-0.4375),
+		_Q15(-0.3125),
+		_Q15(-0.1875),
+		_Q15(-0.0625),
+		_Q15(0.0625),
+		_Q15(0.1875),
+		_Q15(0.3125),
+		_Q15(0.4375)
 };
 
 // Possible phi directions
-static const _q15 orientations[31] = {
-		_Q15(-0.9375),
-		_Q15(-0.875),
-		_Q15(-0.8125),
-		_Q15(-0.75),
-		_Q15(-0.6875),
-		_Q15(-0.625),
-		_Q15(-0.5625),
-		_Q15(-0.5),
-		_Q15(-0.4375),
-		_Q15(-0.375),
-		_Q15(-0.3125),
-		_Q15(-0.25),
-		_Q15(-0.1875),
-		_Q15(-0.125),
-		_Q15(-0.0625),
-		_Q15(0),
-		_Q15(0.0625),
-		_Q15(0.125),
-		_Q15(0.1875),
-		_Q15(0.25),
-		_Q15(0.3125),
-		_Q15(0.375),
-		_Q15(0.4375),
-		_Q15(0.5),
-		_Q15(0.5625),
-		_Q15(0.625),
-		_Q15(0.6875),
-		_Q15(0.75),
-		_Q15(0.8125),
-		_Q15(0.875),
-		_Q15(0.9375)
+static const _q15 orientations[15] = {
+		_Q15(-0.4375), _Q15(-0.375), _Q15(-0.3125), _Q15(-0.25),
+		_Q15(-0.1875), _Q15(-0.125), _Q15(-0.0625), _Q15(0),
+		_Q15(0.0625), _Q15(0.125), _Q15(0.1875), _Q15(0.25),
+		_Q15(0.3125), _Q15(0.375), _Q15(0.4375)
 };
 
-static const uint8_t duties[30] = {
-		75, 70, 65, 60,
-		55, 50, 45, 40,
-		35, 30, 25, 20,
-		20, 20, 20, 20,
-		20, 20, 20, 25,
-		30, 35, 40, 45,
-		50, 55, 60, 65,
-		70, 75
+static const uint8_t duties[14] = {
+		75, 55, 40, 40,
+		55, 75, 80, 80,
+		75, 55, 40, 40,
+		55, 75
+
 };
 
-static const uint8_t fans[30] = {
-		1, 1, 1, 1,
-		2, 2, 2, 2,
-		3, 3, 3, 4,
-		4, 4, 4, 4,
-		4, 4, 4, 3,
-		3, 3, 2, 2,
-		2, 2, 1, 1,
-		1, 1
+static const uint8_t fans[14] = {
+		2, 3, 4, 4,
+		3, 2, 1, 1,
+		2, 3, 4, 4,
+		3, 2
 };
-
-static directions dirTheta;
 
 // Function to update the heading of the LED ring
 extern _q15 theta, phi;
@@ -188,12 +156,12 @@ inline void updateOnTheta(void) {
 	int8_t i;
 	for (i = 6; i >= 0; i--) {
 		// Moving counterclockwise, the 'bottom' and 'top' of the range
-		const _q15 boundaryBot = slices[6u - i];
-		const _q15 boundaryTop = slices[6u - (i + 1u)];
+		volatile const _q15 boundaryTop = slices[7u - i];
+		volatile const _q15 boundaryBot = slices[7u - (i + 1u)];
 
 		// If theta lies within this range, set the heading and break
 		if (theta > boundaryBot && theta < boundaryTop) {
-			dirTheta = mapping[6u - i];
+			dirTheta = mapping[7u - (i + 1)];
 			break;
 		}
 	}
@@ -202,19 +170,19 @@ inline void updateOnTheta(void) {
 inline void updateOnPhi(void) {
 	// If the angle phi is less than -165 degrees or greater than 165 degrees it's south
 	// Set the direction and leave; we're done
-	if (phi < orientations[0] || phi > orientations[30]) {
+	if (phi < orientations[0] || phi > orientations[13]) {
 		duty = 80;
 		return;
 	}
 
 	int8_t i;
-	for (i = 29; i >= 0; i--) {
-		const _q15 boundaryBot = orientations[29u - i];
-		const _q15 boundaryTop = orientations[29u - (i + 1u)];
+	for (i = 13; i >= 0; i--) {
+		const _q15 boundaryTop = orientations[13u - i];
+		const _q15 boundaryBot = orientations[13u - (i + 1u)];
 
 		if (phi > boundaryBot && phi < boundaryTop) {
-			duty = duties[(uint8_t) i];
-			offset = fans[(uint8_t) i];
+			duty = duties[13u - (i + 1u)];
+			offset = fans[13u - (i + 1u)];
 		}
 	}
 }
@@ -222,7 +190,7 @@ inline void updateOnPhi(void) {
 // Display the actual data on the array
 inline void display(void) {
 	// Update the heading
-	setHeading(dirTheta);
+	setHeading();
 
 	// Bit vector representing the LEDs currently active
 	volatile uint8_t ledState = 0;
@@ -233,7 +201,7 @@ inline void display(void) {
 	for (i = 7; i >= 0; i--) {
 		// Get the active status and place it at the appropriate bit location
 		const uint8_t active = l->active;
-		ledState |= (active << i);
+		ledState |= (active << (7u - i));
 		l++;
 	}
 

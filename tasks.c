@@ -26,6 +26,7 @@ extern void print(char *format, ...);
 
 // Basis vectors for logging
 extern _q15 x0, y0, z0;
+extern _q15 theta, phi;
 
 // Logging callback
 inline void printReadings(void) {
@@ -44,6 +45,8 @@ inline void printReadings(void) {
 	print("dx: %i\n\r", dx);
 	print("dy: %i\n\r", dy);
 	print("dz: %i\n\r", dz);
+	print("theta: %i\n\r", theta);
+	print("phi: %i\n\r", phi);
 	print("\n\r");
 
 	// Switch back to analog read mode

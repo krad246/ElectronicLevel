@@ -40,7 +40,7 @@ inline void getOrientation(void) {
 	// Calculate 3d radius
 	const volatile _q15 rho = _Q15mag(r, dz);
 
-	// Compute theta and phi using the lengths, normalize it to [-1, 1)
+	// Compute theta and phi using the lengths, normalize it to [0, 1)
 	theta = _Q15atan2PU(dy, dx);
 	phi = _Q15atan2PU(dz, rho);
 }
