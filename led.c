@@ -169,19 +169,19 @@ inline void updateOnTheta(void) {
 inline void updateOnPhi(void) {
 	// If the angle phi is less than -165 degrees or greater than 165 degrees it's south
 	// Set the direction and leave; we're done
-	if (phi < orientations[0] || phi > orientations[13]) {
+	if (phi < orientations[0] || phi > orientations[14]) {
 		duty = 80;
 		return;
 	}
 
 	int8_t i;
-	for (i = 12; i >= 0; i--) {
-		volatile const _q15 boundaryTop = orientations[13u - i];
-		volatile const _q15 boundaryBot = orientations[13u - (i + 1u)];
+	for (i = 13; i >= 0; i--) {
+		volatile const _q15 boundaryTop = orientations[14u - i];
+		volatile const _q15 boundaryBot = orientations[14u - (i + 1u)];
 
 		if (phi > boundaryBot && phi < boundaryTop) {
-			duty = duties[13u - (i + 1u)];
-			offset = fans[13u - (i + 1u)];
+			duty = duties[14u - (i + 1u)];
+			offset = fans[14u - (i + 1u)];
 		}
 	}
 }
