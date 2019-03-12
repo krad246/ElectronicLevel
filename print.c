@@ -26,11 +26,11 @@ void initUART(void) {
 	// Use modulation type 3
 	UCA0MCTL = UCBRS0;
 
-	// Enable USCI_A0 RX interrupt
-	IE2 |= UCA0RXIE;
-
 	// Start UART
 	UCA0CTL1 &= ~UCSWRST;
+
+	// Enable USCI_A0 RX interrupt
+	IE2 |= UCA0RXIE;
 }
 
 /**
