@@ -21,13 +21,13 @@ main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/include/limits.h
 main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/include/stdlib.h
 main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/include/_ti_config.h
 main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/include/linkage.h
+main.obj: ../led.h
+main.obj: ../spi.h
 main.obj: ../adc.h
 main.obj: ../math.h
 main.obj: ../timer.h
 main.obj: ../print.h
 main.obj: ../button.h
-main.obj: ../led.h
-main.obj: ../spi.h
 
 ../main.c: 
 ../tasks.h: 
@@ -50,10 +50,10 @@ C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/include/limits.h:
 C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/include/stdlib.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/include/_ti_config.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/include/linkage.h: 
+../led.h: 
+../spi.h: 
 ../adc.h: 
 ../math.h: 
 ../timer.h: 
 ../print.h: 
 ../button.h: 
-../led.h: 
-../spi.h: 

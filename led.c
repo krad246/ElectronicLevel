@@ -2,7 +2,7 @@
 
 led array[8];
 
-inline char *toString(directions dir) {
+inline const char *toString(directions dir) {
     const char * const names[8] = {
        "northwest",
        "west",
@@ -36,7 +36,7 @@ void initLEDs() {
 	}
 }
 
-static directions dirTheta;
+volatile directions dirTheta;
 static uint8_t offset;
 
 // Sets heading of LED array so that 3 are illuminated
@@ -76,7 +76,7 @@ inline void setHeading(void) {
 	}
 }
 
-static volatile uint8_t duty;
+volatile uint8_t duty;
 
 // Updates the duty cycle of the LED cluster
 inline void updateTicks(void) {
@@ -88,24 +88,25 @@ inline void updateTicks(void) {
 
 	// Loop through the entries
 	for (i = 7; i >= 0; i--) {
+        // Update the tick counter
+        l->ticks++;
+
 		// If it is active, then parse its current state
 		if (l->active) {
-		    // Update the tick counter
-		    l->ticks++;
-
 			// If enough time has passed in the PWM cycle, turn off the LED
 			if (l->ticks >= l->duty) {
 				l->active = 0;
 			}
-
-	        // Start a new cycle once we're overdue
-	        if (l->ticks >= l->period) {
-	            l->ticks = 0;
-	        }
-
-	        // Also change the duty for the next refresh period
-	        l->duty = duty;
 		}
+
+        // Start a new cycle once we're overdue
+        if (l->ticks >= l->period) {
+            l->ticks = 0;
+
+            // Also change the duty for the next refresh period
+            l->duty = duty;
+        }
+
 		// Move to the next entry
 		l++;
 	}
@@ -154,12 +155,11 @@ static const _q15 orientations[15] = {
 };
 
 static const uint8_t duties[14] = {
-        10, 9, 8, 7, 6, 5, 4, 4, 5, 6, 7, 8, 9, 10
+        2, 3, 4, 5, 7, 8, 10, 10, 8, 7, 5, 4, 3, 2
 };
 
 static const uint8_t fans[14] = {
-//        4, 3, 3, 2, 2, 1, 1, 2, 2, 3, 3, 4
-                                 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+        4, 3, 3, 2, 1, 1, 1, 1, 2, 3, 3, 4
 };
 
 // Function to update the heading of the LED ring
@@ -202,9 +202,6 @@ inline void updateOnPhi(void) {
 
 // Display the actual data on the array
 inline void display(void) {
-	// Update the heading
-	setHeading();
-
 	// Bit vector representing the LEDs currently active
 	volatile uint8_t ledState = 0;
 

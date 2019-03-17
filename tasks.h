@@ -2,6 +2,7 @@
 #define TASKS_H_
 
 #include <dependencies.h>
+#include "led.h"
 
 #define NUM_TASKS 10
 

@@ -28,6 +28,9 @@ extern void print(char *format, ...);
 extern _q15 x0, y0, z0;
 extern _q15 theta, phi;
 
+extern enum directions dirTheta;
+extern uint8_t duty;
+
 // Logging callback
 inline void printReadings(void) {
 	// Switch to UART mode
@@ -47,6 +50,8 @@ inline void printReadings(void) {
 	print("dz: %i\n\r", dz);
 	print("theta: %i\n\r", theta);
 	print("phi: %i\n\r", phi);
+	print("direction: %s\n\r", toString(dirTheta));
+	print("duty: %u\n\r", duty);
 	print("\n\r");
 
 	// Switch back to analog read mode

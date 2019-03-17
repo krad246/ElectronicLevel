@@ -38,9 +38,11 @@ int main(void) {
     send(128);
 
 	// Begin calibration
+    print("\n\r");
 	print("---------------\n\r");
 	print("| Calibration |\n\r");
 	print("---------------\n\r");
+	print("\n\r");
 
 	// Switch to analog mode
 	UARTtoADC();
@@ -99,7 +101,8 @@ inline void buttonCallback(void) {
 		}
 
 		// Status update
-		print("Got sample: %u\r\n", calibVals[calibState]);
+		print("Got sample: %u\n\r", calibVals[calibState]);
+		print("\n\r");
 
 		// Move to next phase
 	    calibState++;
@@ -114,24 +117,25 @@ inline void buttonCallback(void) {
 		z0 = (calibVals[4] + calibVals[5]) >> 1;
 
 		// Print out basis vectors
-		print("-------\r\n");
-		print("x0 = %i\r\n", x0);
-		print("y0 = %i\r\n", y0);
-		print("z0 = %i\r\n", z0);
-		print("-------\r\n");
+		print("-------\n\r");
+		print("x0 = %i\n\r", x0);
+		print("y0 = %i\n\r", y0);
+		print("z0 = %i\n\r", z0);
+		print("-------\n\r");
 
-		print("Starting application...\r\n");
+		print("Starting application...\n\r");
 
 		// Add all of the display tasks
 		// Add the system print
-		registerTask(printReadings, 1000);
+//		registerTask(printReadings, 1000);
 
 		// Add the angle calculations
 		registerTask(getOrientation, 4);
 
 		// Add the update functions
-		registerTask(updateOnTheta, 8);
-		registerTask(updateOnPhi, 8);
+		registerTask(updateOnTheta, 1);
+		registerTask(updateOnPhi, 1);
+        registerTask(setHeading, 1);
 		registerTask(updateTicks, 1);
 
 		// Add the visual display function
