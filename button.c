@@ -16,6 +16,21 @@ void initButton(void) {
 	P1IE |= BIT3;
 }
 
+void disableButton(void) {
+    // Set BIT3 to output mode
+    P1DIR |= BIT3;
+
+    // Disable and deactivate pullup resistor
+    P1REN &= ~BIT3;
+    P1OUT &= ~BIT3;
+
+/*  Clear the interrupt flag, interrupts,
+    and edge triggering functionality */
+    P1IES &= ~BIT3;
+    P1IFG &= ~BIT3;
+    P1IE &= ~BIT3;
+}
+
 // Button state variable
 volatile uint8_t state = 0;
 

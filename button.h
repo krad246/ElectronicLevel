@@ -7,5 +7,6 @@
 #define THRESHOLD 100
 
 void initButton(void);
+void disableButton(void);
 
 #endif /* BUTTON_H_ */
