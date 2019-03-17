@@ -71,7 +71,7 @@ void initPorts(void) {
 _q15 x0, y0, z0;
 
 // Phase of calibration and min / max data
-static uint8_t calibState = 0;
+static volatile uint8_t calibState = 0;
 static _q15 calibVals[6] = { 0 };
 static uint8_t calibrationDirections[7] = {
 	128, 8,
