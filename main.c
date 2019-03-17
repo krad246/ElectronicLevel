@@ -38,11 +38,9 @@ int main(void) {
     send(128);
 
 	// Begin calibration
-	print("\n\r");
 	print("---------------\n\r");
 	print("| Calibration |\n\r");
 	print("---------------\n\r");
-	print("\n\r");
 
 	// Switch to analog mode
 	UARTtoADC();
@@ -88,6 +86,7 @@ extern _q15 arr[3];
 
 // Button callback
 inline void buttonCallback(void) {
+    ADCtoUART();
 	// If in the middle of calibrating
 	if (calibState < 6) {
 		// Set the appropriate value in the array
@@ -101,7 +100,6 @@ inline void buttonCallback(void) {
 
 		// Status update
 		print("Got sample: %u\r\n", calibVals[calibState]);
-		print("\r\n");
 
 		// Move to next phase
 	    calibState++;
@@ -142,4 +140,5 @@ inline void buttonCallback(void) {
 		// Disable the button
 		disableButton();
 	}
+    UARTtoADC();
 }

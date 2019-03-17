@@ -2,6 +2,21 @@
 
 led array[8];
 
+inline char *toString(directions dir) {
+    const char * const names[8] = {
+       "northwest",
+       "west",
+       "southwest",
+       "south",
+       "southeast",
+       "east",
+       "northeast",
+       "north"
+    };
+
+    return names[(uint8_t) dir];
+}
+
 // Configures LED pins
 void initLEDs() {
 	P1DIR |= BIT4;

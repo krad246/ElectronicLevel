@@ -15,6 +15,8 @@ typedef enum directions {
 	northwest = 0
 } directions;
 
+inline char *toString(directions dir);
+
 typedef struct led {
 	uint16_t period;
 	uint16_t duty;
